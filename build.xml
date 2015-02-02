@@ -1,0 +1,98 @@
+<project default="compile">
+  
+  <!-- build.xml for github.com/TrainSim
+       original authors: Josiphine Vo, Felicia Truong, 
+       Jazarie Thach, Jessica Huang, Jennifer Cryan     
+       for CS48, W15-->
+  
+  <property environment="env"/> <!-- load the environment variables -->
+  <property name="webRoot" value="${env.HOME}/public_html/cs48" />
+  <property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs48/" />  
+  <property name="project" value="snakeTrain" />
+  <property name="javadocDest" value="${webRoot}/${project}/javadoc" />
+  <property name="javadocURL" value="${webBaseURL}/${project}/javadoc" />
+  <property name="main" value="snakeTrain" />
+  
+  <target name="compile" description="compile program code">
+    <mkdir dir="build" />
+    <javac srcdir="src" destdir="build" includeantruntime="false" debug="true" debuglevel="lines,source" >
+      <classpath>
+        <pathelement location="build"/>
+        <pathelement location="lib/junit-4.8.2.jar"/>
+      </classpath>
+    </javac>
+  </target>
+  
+  <target name="run" depends="compile" description="run the SnakeTrain program">
+    <java classname="${main}" classpath="build" fork="true" />
+  </target>
+  
+  <target name="clean" description="delete unnecessary files and directories">
+    <delete dir="build" quiet="true" />
+    <delete dir="javadoc" quiet="true" />
+  </target>
+
+ <target name="jar" depends="compile">
+    <mkdir dir="build/dist"/>
+    <manifestclasspath property="jar.class.path" jarfile="build/dist/snakeTrain.jar">
+      <classpath refid="project.class.path"/>
+    </manifestclasspath>
+    <jar destfile="build/dist/snakeTrain.jar" basedir="build/edu">
+      <fileset dir="src">
+        <exclude name="**/*.java" />
+      </fileset>
+      <manifest>
+        <attribute name="Main-Class" value="${main}"/>
+        <attribute name="Class-Path" value="${jar.class.path}"/>
+      </manifest>
+    </jar>
+ </target>
+
+  <target name="run-from-jar" depends="jar">
+    <java fork="true" classname="${main}">
+      <classpath>
+        <pathelement location="build/dist/snakeTrain.jar"/>
+      </classpath>
+    </java>
+  </target>
+
+  
+  <target name="javadoc" depends="compile">
+    
+    <delete dir="javadoc" quiet="true" />
+    <javadoc destdir="javadoc" author="true" version="true" use="true">
+      <fileset dir="src" includes="**/*.java"/>
+    </javadoc>
+    
+    <delete quiet="true" dir="${javadocDest}" />
+    
+    <copy todir="${javadocDest}" >
+      <fileset dir="javadoc" />
+    </copy>
+    
+    <chmod dir="${javadocDest}" perm="755" type="dir" includes="**" />
+    <chmod dir="${javadocDest}" perm="755" type="file" includes="**/*" />
+    <echo>Javadoc deployed to ${javadocURL}</echo>
+    
+  </target>
+  
+  <target name="test" depends="compile">
+    
+    <junit haltonerror="no" haltonfailure="no">
+      <classpath>
+        <pathelement location="lib/junit-4.8.2.jar"/>
+        <pathelement location="build"/>
+      </classpath>
+      
+      <batchtest fork="yes">
+        <fileset dir="src">
+          <include name="**/*Test.java"/>
+        </fileset>
+      </batchtest>
+      
+      <formatter type="plain" usefile="false" />
+      
+    </junit>
+  </target>
+  
+</project>
