@@ -144,7 +144,7 @@ public class GameEnvironment extends JFrame {
                 }
             }
             catch(Exception e) {
-                if(e instanceof InterruptedException) {}
+                if (e instanceof InterruptedException) {}
                 else {
                     System.out.println(ex);
                     System.exit(1); // terminate program
