@@ -18,7 +18,6 @@ public Test{
     */
 
     private void generateAnimal(){
-        
 	Animal a = new Animal();
 	a.setX(Math.random() % 1024);
 	a.setY(Math.random() % 760);
@@ -58,7 +57,7 @@ public Test{
 
     private class keyboard extends KeyAdapter {
 
-	@Overrode
+	@Override
 	public void keyPressed(KeyEvent e){
 	    int key = e.getKeyCode();
 

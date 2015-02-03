@@ -47,17 +47,27 @@ public class GameEnvironment extends JFrame {
     long pauseLength;
     int pauseDelay = 20;
     boolean stopGame = false;
-    
+    private final int SHIFT = 64;
+    private boolean left = false;
+    private boolean right = true;
+    private boolean up = false;
+    private boolean down = false;
+    private boolean gameover = false;
+    private int animalType;
+
     ArrayList<Animal> animalArray = new ArrayList<Animal>();
     ArrayList<Animal> tailArray = new ArrayList<Animal>();
     
     
     /**
-     Method addNewAnimals adds Animal to ArrayList
-     @param animal - an Animal object
+     Method addNewBoardAnimal adds Animal to ArrayList
+     and gives it an initial position on the board   
      */
-    private void addNewAnimals(Animal animal) {
-        animalArray.add(animal);
+    private void addNewBoardAnimal() {
+	Animal a = new Animal();
+	a.setX(Math.random() % 1024);
+	a.setY(Math.random() % 760);
+	animal.add(a);
     }
     
     /**
@@ -86,8 +96,8 @@ public class GameEnvironment extends JFrame {
      */
     
     class DrawingPanel extends JPanel {
-        public void paintComponent(Graphics g) {
-            
+	@Override
+        public void paintComponent(Graphics g) {   
             // sets background color and image
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(Color.GREEN);
@@ -154,7 +164,7 @@ public class GameEnvironment extends JFrame {
                 }
                 
                 // checks if train crosses paths with zoo and clears tailArray
-                if(train.getX() == /*zoo grid X*/ && train.getY() == /*zoo grid Y*/) {
+                if(train.getX() == 100/*zoo grid X*/ && train.getY() == 100/*zoo grid Y*/) {
                     tailArray.clear();
                 }
                 
@@ -187,24 +197,89 @@ public class GameEnvironment extends JFrame {
     } // end Animate
     
     /**
+       Method moveTrain moves the head of the train and makes
+       all of the train parts follow
+    */
+  private void moveTrain(){
+	
+       
+	for ( int i = tail.size()-1; i>0; z--){
+	    tail.get(i).setX(tail.get(i-1).getX());
+	    tail.get(i).setY(tail.get(i-1).getY());
+	}
+	
+	tail.get(0).setX(train.getX());
+	tail.get(0).setY(train.getY());
+
+	if (left){
+	    train.setX(train.getX() - SHIFT);
+	}
+
+	if (right){
+	    train.setX(train.getX() + SHIFT);
+	}
+
+	if (up){
+	    train.setY(train.getY() - SHIFT);
+	}
+
+	if (down){
+	    train.setY(train.getY() + SHIFT);
+	}
+       	
+  }
+
+
+    /**
      Class to handle keyboard events to move train on screen
      up, down, left, or right based on user input
      */
-    
-    
+     private class keyboard extends KeyAdapter {
+
+	@Override
+	public void keyPressed(KeyEvent e){
+	    int key = e.getKeyCode();
+
+	    if((key == KeyEvent.VK_LEFT) && (!right)){
+		left = true;
+		up = false;
+		down = false;
+	    }
+	   
+	    if((key == KeyEvent.VK_RIGHT) && (!left)){
+		right = true;
+		up = false;
+		down = false;
+	    }	   
+
+	    if((key == KeyEvent.VK_UP) && (!down)){
+		up = true;
+		right = false;
+		left = false;
+	    }	
+	    
+	    if((key == KeyEvent.VK_DOWN) && (!up)){
+		down = true;
+		right = false;
+		left = false;
+	    }
+ 
+	}
+     }
+
     
     /**
      Class to display game menu with options to play game,
      read instructions, and exit the game
      */
     class GameMenu implements ActionListener {
-        JButton Pause = new JButton "Pause";
+        JButton Pause = new JButton("Pause");
         /* 
          import buttons if desired
          implement save if desired
          JButton Save = new JButton "Save & Exit"
          */
-        JButton Exit = new JButton "Exit";
+        JButton Exit = new JButton("Exit");
         
         // Start game menu
         public void main(Strin [] args) {
@@ -237,7 +312,7 @@ public class GameEnvironment extends JFrame {
                 }
                 else {
                     stop = false;
-                    pausetime += (System.nanoTime() / 1000000000 - pauseStart)
+                    pausetime += (System.nanoTime() / 1000000000 - pauseStart);
                 }
             }
             

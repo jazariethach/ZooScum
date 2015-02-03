@@ -19,20 +19,20 @@ abstract public class Sprites {
 	int Xpos;
 	int Ypos;
 	
-	set image
+    //set image
 	
-	buffered image get image
+    //	buffered image get image
 	
 	//get x pos of the cell
-	public abstract int getx();
+	public abstract int getX();
 	
 	//get y pos of the cell
-	public abstract int gety();
+	public abstract int getY();
 	
 	//set x pos of the cell
-	public abstract void setx(int x);
+	public abstract void setX(int x);
 	
 	//set y pos of the cell
-	public abstract void sety(int y);
+	public abstract void setY(int y);
 
 }
