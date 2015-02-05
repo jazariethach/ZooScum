@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.ActionLIstener;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.*;
 import java.io.*;
@@ -55,6 +55,7 @@ public class GameEnvironment extends JFrame {
     private boolean gameover = false;
     private int animalType;
 
+	Train train = new Train();
     ArrayList<Animal> animalArray = new ArrayList<Animal>();
     ArrayList<Animal> tailArray = new ArrayList<Animal>();
     
@@ -64,10 +65,10 @@ public class GameEnvironment extends JFrame {
      and gives it an initial position on the board   
      */
     private void addNewBoardAnimal() {
-	Animal a = new Animal();
-	a.setX(Math.random() % 1024);
-	a.setY(Math.random() % 760);
-	animal.add(a);
+		Animal a = new Animal();
+		a.setX((int)Math.round(Math.random() * 1024));
+		a.setY((int)Math.round(Math.random() * 760));
+		animalArray.add(a);
     }
     
     /**
@@ -84,7 +85,7 @@ public class GameEnvironment extends JFrame {
      */
     public GameEnvironment() {
         for(int i = 0; i < numAnimals; i++) {
-            addNewAnimals(new Animal());
+            addNewBoardAnimal();
         }
     }
     
@@ -146,7 +147,7 @@ public class GameEnvironment extends JFrame {
             catch(Exception e) {
                 if (e instanceof InterruptedException) {}
                 else {
-                    System.out.println(ex);
+                    System.out.println(e);
                     System.exit(1); // terminate program
                 }
             }
@@ -282,7 +283,7 @@ public class GameEnvironment extends JFrame {
         JButton Exit = new JButton("Exit");
         
         // Start game menu
-        public void main(Strin [] args) {
+        public void main(String [] args) {
             GameMenu gameMenu = new GameMenu();
             gameMenu.makeMenu();
         }

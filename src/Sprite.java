@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.lang.Math;
 
-abstract public class Sprites {
+abstract public class Sprite{
 
     /**
        Constructor
