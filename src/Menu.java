@@ -81,8 +81,14 @@ class MainEnvironment extends JFrame {
         Font font = new Font("Corsiva Hebrew", Font.PLAIN, 20);
         String s = "How to Play";
         
-	@Override
-        public void paintCompnent(Graphics g) {
+		
+        instructionsFrame.add(Back);
+        instructionsFrame.pack();
+        instructionsFrame.setVisible(true);
+    }
+    
+    @Override
+        public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(Color.GREEN);
             g2.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -104,14 +110,9 @@ class MainEnvironment extends JFrame {
             int cx = (d.width - width) / 2;
             int cy = (d.height - fm.getHeight()) / 2 + fm.getAscent();
             
-            g2.drawString(s, cx, cy);
-            
+            g2.drawString(s, cx, cy);         
             
         }
-        instructionsFrame.add(Back);
-        instructionsFrame.pack();
-        instructionsFrame.setVisible(true);
-    }
     
     public void actionPerformed(ActionEvent event) {
         if(event.getSource() == Play) {
