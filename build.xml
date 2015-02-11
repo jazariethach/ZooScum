@@ -1,57 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <project default="compile">
   
-  <!-- build.xml for github.com/TrainSim
-       original authors: Josiphine Vo, Felicia Truong, 
-       Jazarie Thach, Jessica Huang, Jennifer Cryan     
-       for CS48, W15-->
+  <!--  build.xml for github.com/jazariethach/ZooScum
+        original authors: Josiphine Vo
+                          Felicia Truong 
+                          Jazarie Thach 
+                          Jessica Huang
+                          Jennifer Cryan     
+        for CS48, W15
+  -->
   
-  <property environment="env"/> <!-- load the environment variables -->
+  <property environment="env" /> 
+  <!-- load the environment variables 
+  -->
   <property name="webRoot" value="${env.HOME}/public_html/cs48" />
   <property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs48/" />  
-  <property name="project" value="snakeTrain" />
+  <property name="project" value="ZooScum" />
   <property name="javadocDest" value="${webRoot}/${project}/javadoc" />
   <property name="javadocURL" value="${webBaseURL}/${project}/javadoc" />
-  <property name="main" value="snakeTrain" />
+  <property name="mainClass" value="MainEnvironment" />
+  <property name="gameClass" value="GameEnvironment" />
+  
+  <path id="project.class.path">
+    <pathelement location="build"/>
+    <pathelement location="lib/junit-4.8.2.jar"/>
+  </path>
   
   <target name="compile" description="compile program code">
     <mkdir dir="build" />
     <javac srcdir="src" destdir="build" includeantruntime="false" debug="true" debuglevel="lines,source" >
-      <classpath>
-        <pathelement location="build"/>
-        <pathelement location="lib/junit-4.8.2.jar"/>
-      </classpath>
+      <classpath refid="project.class.path"/>
     </javac>
   </target>
   
-  <target name="run" depends="compile" description="run the SnakeTrain program">
-    <java classname="${main}" classpath="build" fork="true" />
+  <target name="run" depends="compile" description="run the ${project} program">
+    <java classname="${mainClass}" fork="true">
+      <classpath refid="project.class.path"/>
+    </java>
+  </target>
+  
+  <target name="run game" depends="compile" description="runs game environment">
+    <java classname="${gameClass}" fork="true">
+      <classpath refid="project.class.path"/>
+    </java>
   </target>
   
   <target name="clean" description="delete unnecessary files and directories">
-    <delete dir="build" quiet="true" />
+    <delete dir="build" includes="*.class" quiet="true" />
     <delete dir="javadoc" quiet="true" />
   </target>
 
  <target name="jar" depends="compile">
     <mkdir dir="build/dist"/>
-    <manifestclasspath property="jar.class.path" jarfile="build/dist/snakeTrain.jar">
+    <manifestclasspath property="jar.class.path" jarfile="build/dist/${project}.jar">
       <classpath refid="project.class.path"/>
     </manifestclasspath>
-    <jar destfile="build/dist/snakeTrain.jar" basedir="build/edu">
+    <jar destfile="build/dist/${project}.jar" basedir="build/edu">
       <fileset dir="src">
         <exclude name="**/*.java" />
       </fileset>
       <manifest>
-        <attribute name="Main-Class" value="${main}"/>
+        <attribute name="Main-Class" value="${mainClass}"/>
         <attribute name="Class-Path" value="${jar.class.path}"/>
       </manifest>
     </jar>
  </target>
 
-  <target name="run-from-jar" depends="jar">
+  <target name="run jar" depends="jar">
     <java fork="true" classname="${main}">
       <classpath>
-        <pathelement location="build/dist/snakeTrain.jar"/>
+        <pathelement location="build/dist/${project}.jar"/>
       </classpath>
     </java>
   </target>
