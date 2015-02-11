@@ -95,11 +95,6 @@ public class GameEnvironment extends JFrame {
         //start Animation
     }
     
-   /* public void startGame(){
-    	GameMenu inGameMenu = new GameMenu();
-    	//Animate
-    }*/
-    
     
     /**
      Innerclass for JPanel animation to create background

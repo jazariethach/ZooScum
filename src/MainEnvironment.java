@@ -107,7 +107,6 @@ class MainEnvironment extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent event) {
         if(event.getSource() == Play) {
             menuFrame.setVisible(false);
-            //System.out.println("Hello, World");
             GameEnvironment SnakeTrain = new GameEnvironment(); //gameEnvironment is constructed
         }
         if(event.getSource() == Instructions) {

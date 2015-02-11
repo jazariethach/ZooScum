@@ -42,7 +42,7 @@ public class Train{
      Class to handle keyboard events to move train on screen
      up, down, left, or right based on user input, maybe put this in game env
      */
-    private class keyboard extends KeyAdapter {
+    private class Keyboard extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e){
 	    	int key = e.getKeyCode();
@@ -79,6 +79,7 @@ public class Train{
        all of the train parts follow
     */
   	private void move(){
+  		Keyboard playerInput = new KeyBoard();
 		if (left){  this.setX(this.getX() - SHIFT); }
 		if (right){ this.setX(this.getX() + SHIFT); }
 		if (up){ this.setY(this.getY() - SHIFT); }
