@@ -14,7 +14,7 @@ abstract public class Sprite{
        @param xPos x coord of the grid location
        @param yPos y coord of the grid location
     */	
-    
+
     //position of sprite on grid
 	int Xpos;
 	int Ypos;

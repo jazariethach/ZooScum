@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.*;
@@ -23,18 +24,17 @@ import java.net.*;
 */
 
 public class GameEnvironment extends JFrame {
+
     Thread animate;
     DrawingPanel gridPanel = new DrawingPanel();
     JFrame animationFrame = new JFrame();
-    
-    //GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()
     
     int maxX = 1024;
     int maxGridX = maxX/64;
     int maxY = 768;
     int maxGridY = maxY/64;
-    int x = maxGridX/2;     // initial train x position
-    int y = 0;              // initial train y position
+    int trainX = maxGridX/2;     // initial train x position
+    int trainY = 0;              // initial train y position
     
     int collected = 0;
     int numAnimals = 3;
@@ -45,13 +45,8 @@ public class GameEnvironment extends JFrame {
     long time2;
     long pauseStart;
     long pauseLength;
-    int pauseDelay = 20;
-    boolean stopGame = false;
-    private final int SHIFT = 64;
-    private boolean left = false;
-    private boolean right = true;
-    private boolean up = false;
-    private boolean down = false;
+    //int pauseDelay = 20;
+    boolean stopGame = false; 
     private boolean gameover = false;
     private int animalType;
 
@@ -80,14 +75,30 @@ public class GameEnvironment extends JFrame {
     }
     
     /**
-     Constructor gameEnv creates JFrame and JPanel for
-     animals and train with animated JPanel
+     Constructor gameEnv ??creates JFrame and JPanel for
+     animals and train with animated JPanel??
      */
     public GameEnvironment() {
         for(int i = 0; i < numAnimals; i++) {
             addNewBoardAnimal();
         }
+        animationFrame.getContentPane().add(BorderLayout.CENTER, gridPanel);
+		animate = new Animate();
+		animate.start();
+		animationFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);    
+		animationFrame.setSize(maxX, maxY);
+		animationFrame.setVisible(true);
+		GameMenu game = new GameMenu();
+		game.makeMenu();
+        //open gameEnvr
+        //setBackground
+        //start Animation
     }
+    
+   /* public void startGame(){
+    	GameMenu inGameMenu = new GameMenu();
+    	//Animate
+    }*/
     
     
     /**
@@ -98,7 +109,8 @@ public class GameEnvironment extends JFrame {
     
     class DrawingPanel extends JPanel {
 	@Override
-        public void paintComponent(Graphics g) {   
+        public void paintComponent(Graphics g) {
+        	int score = 0; //no way of updating this currently since it's only in drawingpanel, need to make getScore
             // sets background color and image
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(Color.GREEN);
@@ -113,14 +125,14 @@ public class GameEnvironment extends JFrame {
              */
             
             // Starts ActionListener to listen for keyboard events in panel
-            TAdapter keyListener = new TAdapter();
-            gridPanel.addKeyListener(keyListener);
+        	//keyboard keyListener = new keyboard();
+           	//gridPanel.addKeyListener(keyListener);
             
             // Displays current time & score
             g.setFont(new Font("Corsiva Hebrew", Font.PLAIN, 40));
             g.setColor(Color.BLACK);
-            String score = "Score: " + score;
-            g.drawString(score, 0, 35);
+            String displayScore = "Score: " + score;
+            g.drawString(displayScore, 0, 35);
             String elapsed = "Time elapsed: " + timer;
             g.drawString(elapsed, 0, 65);
             
@@ -141,7 +153,7 @@ public class GameEnvironment extends JFrame {
         public void play() {
             try {
                 while(true) {
-                    gameLogic(pauseDelay);
+                    gameLogic();//gameLogic(pauseDelay);
                 }
             }
             catch(Exception e) {
@@ -153,7 +165,7 @@ public class GameEnvironment extends JFrame {
             }
         } // end play
         
-        void gameLogic(int pauseDelay) throws InterruptedException {
+        void gameLogic() throws InterruptedException {//void gameLogic(int pauseDelay) throws InterruptedException {
             if(!stopGame) {
                 // checks if train crosses paths with animals
                 for(int i = 0; i < animalArray.size(); i++) {
@@ -183,92 +195,21 @@ public class GameEnvironment extends JFrame {
                     stopGame = true;
                 }
                 
-                if(!stopGame) {
+/*                if(!stopGame) {
                     time2 = System.nanoTime() / 1000000000 - pausetime;
-                    timer = (int)(time2 - time1); /* + previous load time */
-                }
+                    timer = (int)(time2 - time1); /* + previous load time 
+                }*/
                 
                 gridPanel.repaint();
                 if(Thread.currentThread().interrupted()) {
                     throw(new InterruptedException());
                 }
-                Thread.currentThread().sleep(pauseDelay);
+                Thread.currentThread().sleep(20);
             }
         } // end gameLogic
     } // end Animate
-    
-    /**
-       Method moveTrain moves the head of the train and makes
-       all of the train parts follow
-    */
-  private void moveTrain(){
+
 	
-       
-	for ( int i = tail.size()-1; i>0; z--){
-	    tail.get(i).setX(tail.get(i-1).getX());
-	    tail.get(i).setY(tail.get(i-1).getY());
-	}
-	
-	tail.get(0).setX(train.getX());
-	tail.get(0).setY(train.getY());
-
-	if (left){
-	    train.setX(train.getX() - SHIFT);
-	}
-
-	if (right){
-	    train.setX(train.getX() + SHIFT);
-	}
-
-	if (up){
-	    train.setY(train.getY() - SHIFT);
-	}
-
-	if (down){
-	    train.setY(train.getY() + SHIFT);
-	}
-       	
-  }
-
-
-    /**
-     Class to handle keyboard events to move train on screen
-     up, down, left, or right based on user input
-     */
-     private class keyboard extends KeyAdapter {
-
-	@Override
-	public void keyPressed(KeyEvent e){
-	    int key = e.getKeyCode();
-
-	    if((key == KeyEvent.VK_LEFT) && (!right)){
-		left = true;
-		up = false;
-		down = false;
-	    }
-	   
-	    if((key == KeyEvent.VK_RIGHT) && (!left)){
-		right = true;
-		up = false;
-		down = false;
-	    }	   
-
-	    if((key == KeyEvent.VK_UP) && (!down)){
-		up = true;
-		right = false;
-		left = false;
-	    }	
-	    
-	    if((key == KeyEvent.VK_DOWN) && (!up)){
-		down = true;
-		right = false;
-		left = false;
-	    }
- 
-	}
-     }
-
-    
     /**
      Class to display game menu with options to play game,
      read instructions, and exit the game
@@ -281,12 +222,6 @@ public class GameEnvironment extends JFrame {
          JButton Save = new JButton "Save & Exit"
          */
         JButton Exit = new JButton("Exit");
-        
-        // Start game menu
-        public void main(String [] args) {
-            GameMenu gameMenu = new GameMenu();
-            gameMenu.makeMenu();
-        }
         
         // Start GUI for game environment with menu
         public void makeMenu() {
@@ -303,9 +238,9 @@ public class GameEnvironment extends JFrame {
         }
         
         // Performs actions if buttons are pressed
-        public void action(ActionEvent buttonPress) {
+        public void actionPerformed(ActionEvent buttonPress) {
             
-            // Stops program if Pause is pressed
+            /*// Stops program if Pause is pressed
             if(buttonPress.getSource() == Pause) {
                 if(stopGame == false) {
                     stopGame = true;
@@ -315,49 +250,13 @@ public class GameEnvironment extends JFrame {
                     stop = false;
                     pausetime += (System.nanoTime() / 1000000000 - pauseStart);
                 }
-            }
-            
-            /**
-             Serializes and terminates game if Save is pressed
-            if(event.getSource() == Save) {
-                try {
-                    FileOutputStream fs = new FileOutputStream("saved.ser");
-                    ObjectOutputStream os = new ObjectOutputStream(fs);
-                    os.flush();
-                    os.writeInt(eaten);
-                    os.writeInt(numJellyFish);
-                    os.writeInt(timer);
-                    os.writeInt(posX);
-                    os.writeInt(posY);
-                    os.writeInt(boatX);
-                    for(int k = 0; k < numFish; k++) {
-                        os.writeDouble(fishArray.get(k).getXPos());
-                        os.writeDouble(fishArray.get(k).getYPos());
-                        os.writeDouble(fishArray.get(k).getWidth());
-                        os.writeDouble(fishArray.get(k).getHeight());
-                    }
-                    for(int i = 0; i < numJellyFish; i++) {
-                        int toWriteX = (int) jellyfish.get(i).getXPos();
-                        int toWriteY = (int) jellyfish.get(i).getYPos();
-                        os.writeInt(toWriteX);
-                        os.writeInt(toWriteY);
-                        os.writeDouble(jellyfish.get(i).getSpeed());
-                    }
-                    os.close();
-                }
-                catch(Exception ex) {
-                    ex.printStackTrace();
-                }
-                eaten = 0;
-                numJellyFish = 0;
-                System.exit(0);
-            }
-            */
+            }*/
             
             // Terminates program if Exit is pressed
             if(buttonPress.getSource() == Exit) {
                 System.exit(0);
             }
+        
         }
         
     }

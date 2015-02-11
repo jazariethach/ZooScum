@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -17,7 +18,7 @@ import java.util.*;
     @version for CS48, Winter 2015, UCSB
 */
 
-class Menu extends JFrame implements ActionListener{
+class MainEnvironment extends JFrame implements ActionListener{
     JFrame menuFrame;
     JFrame instructionsFrame;
     JButton Play = new JButton("Play Game");
@@ -25,11 +26,11 @@ class Menu extends JFrame implements ActionListener{
     JButton Exit = new JButton("Exit");
     JButton Back;
     JPanel instructionsPanel = new JPanel();
-    Container c;
+    //Container c;
     
     // Calls displayMenu to menu on screen
     public static void main(String [] args) {
-       	Menu mainMenu = new MainEnvironment();
+       	MainEnvironment mainMenu = new MainEnvironment();
         mainMenu.displayMenu();
     }
     
@@ -49,16 +50,11 @@ class Menu extends JFrame implements ActionListener{
         Instructions.addActionListener(this);
         Exit.addActionListener(this);
         
-        c = new JLabel(/*background image*/);
-        c.setLayout(new FlowLayout());
-        c.add(Play);
-        c.add(Instructions);
-        c.add(Exit);
-        c.add(Play);
-        c.add(Instructions);
-        c.add(Exit);
-        //c.pack();
-        
+        //c = new JLabel(/*background image*/);
+        menuFrame.setLayout(new FlowLayout());
+        menuFrame.add(Play);
+        menuFrame.add(Instructions);
+        menuFrame.add(Exit);
         menuFrame.setVisible(true);
         
     }
@@ -111,13 +107,14 @@ class Menu extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent event) {
         if(event.getSource() == Play) {
             menuFrame.setVisible(false);
-            GameEnvironment SnakeTrain = new GameEnvironment();
+            //System.out.println("Hello, World");
+            GameEnvironment SnakeTrain = new GameEnvironment(); //gameEnvironment is constructed
         }
         if(event.getSource() == Instructions) {
             menuFrame.remove(Play);
             menuFrame.remove(Instructions);
             menuFrame.remove(Exit);
-            menuFrame.remove(c);
+            //menuFrame.remove(c);
             menuFrame.setVisible(false);
             HowToPlay();
         }

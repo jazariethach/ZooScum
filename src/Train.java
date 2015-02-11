@@ -9,18 +9,22 @@ import java.net.*;
 import java.awt.image.BufferedImage;
 
 public class Train{
-    private int Xpos, Ypos;
-    private BufferedImage image;
-    
-    private final int height = 10;
-    private final int width = 10;
+
+ 	private boolean left = false;
+    private boolean right = true;
+    private boolean up = false;
+    private boolean down = false;
+	
+	int Xpos, Ypos;
+ 	private final int SHIFT = 64;	
+   	final int height = 10;
+   	final int width = 10;
+    BufferedImage image;
     
     public Train(){
-	this.Xpos = 0;
-	this.Ypos = 512;
+		this.Xpos = 0;
+		this.Ypos = 512;
     }
-    
-
 
     //get x pos of the cell
     public int getX(){ return Xpos; }
@@ -33,6 +37,53 @@ public class Train{
 	
     //set y pos of the cell
     public void setY(int y){ Ypos = y; }
+    
+    /**
+     Class to handle keyboard events to move train on screen
+     up, down, left, or right based on user input, maybe put this in game env
+     */
+    private class keyboard extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e){
+	    	int key = e.getKeyCode();
+
+	   	 	if((key == KeyEvent.VK_LEFT) && (!right)){
+				left = true;
+				up = false;
+				down = false;
+	    	}
+	   
+		  	if((key == KeyEvent.VK_RIGHT) && (!left)){
+				right = true;
+				up = false;
+				down = false;
+	    	}	   
+
+		    if((key == KeyEvent.VK_UP) && (!down)){
+				up = true;
+				right = false;
+				left = false;
+	    	}	
+	    
+	    	if((key == KeyEvent.VK_DOWN) && (!up)){
+				down = true;
+				right = false;
+				left = false;
+	    	}
+ 
+		}
+     }
+    
+     /**
+       Method moveTrain moves the head of the train and makes
+       all of the train parts follow
+    */
+  	private void move(){
+		if (left){  this.setX(this.getX() - SHIFT); }
+		if (right){ this.setX(this.getX() + SHIFT); }
+		if (up){ this.setY(this.getY() - SHIFT); }
+		if (down){ this.setY(this.getY() + SHIFT); }
+ 	}
 
     //get object's current image
    /* public BufferedImage getImage(){
