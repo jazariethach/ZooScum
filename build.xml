@@ -28,9 +28,12 @@
   
   <target name="compile" description="compile program code">
     <mkdir dir="build" />
-    <javac srcdir="src" destdir="build" includeantruntime="false" debug="true" debuglevel="lines,source" >
+    <javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" >
       <classpath refid="project.class.path"/>
     </javac>
+    <copy todir="build/resources">
+      <fileset dir="resources" includes="*.jpg" excludes="Test**"/>
+    </copy>
   </target>
   
   <target name="run" depends="compile" description="run the ${project} program">
