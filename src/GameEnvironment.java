@@ -79,6 +79,7 @@ public class GameEnvironment extends JFrame {
      animals and train with animated JPanel??
      */
     public GameEnvironment() {
+    
         for(int i = 0; i < numAnimals; i++) {
             addNewBoardAnimal();
         }
@@ -125,9 +126,6 @@ public class GameEnvironment extends JFrame {
            	gridPanel.addKeyListener(keyListener);
            	
            	//Images in the game
-           	//File file = new File("tc.jpg");
-			//String path = file.getAbsolutePath();
-			//System.out.println(path);
 
 	    	URL trainURL = getClass().getResource("graphics/tc.jpg");
         	Image trainIM = new ImageIcon(trainURL).getImage();
@@ -160,9 +158,8 @@ public class GameEnvironment extends JFrame {
      of train and animals and checks for when to stop game
      */
     class Animate extends Thread {
-        public void play() {
+        public void run() {
             try {
-            	train.move();
                 while(true) {
                     gameLogic();//gameLogic(pauseDelay);
                 }
@@ -174,14 +171,14 @@ public class GameEnvironment extends JFrame {
                     System.exit(1); // terminate program
                 }
             }
-        } // end play
+        } // end run
         
         void gameLogic() throws InterruptedException {//void gameLogic(int pauseDelay) throws InterruptedException {
             if(!stopGame) {
                 // checks if train crosses paths with animals
                 for(int i = 0; i < animalArray.size(); i++) {
-                    if(train.getX() == animalArray.get(i).getX() &&
-                       train.getY() == animalArray.get(i).getY()) {
+                    if( train.getX() == animalArray.get(i).getX() &&
+                    	train.getY() == animalArray.get(i).getY() ) {
                         tailArray.add(animalArray.get(i));
                         animalArray.remove(i);
                     }
