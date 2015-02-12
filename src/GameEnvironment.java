@@ -75,9 +75,9 @@ public class GameEnvironment extends JFrame {
     }
     
     /**
-     Constructor gameEnv ??creates JFrame and JPanel for
-     animals and train with animated JPanel??
-     */
+     Constructor gameEnv creates JFrame and JPanel for
+     animals and train with animated JPanel
+     */ 
     public GameEnvironment() {
     
         for(int i = 0; i < numAnimals; i++) {
@@ -113,12 +113,9 @@ public class GameEnvironment extends JFrame {
             g2.setColor(Color.GREEN);
             g2.fillRect(0, 0, this.getWidth(), this.getHeight());
             super.paintComponent(g);
+            
             /**
              code for adding background image / zoo image / sprites
-             
-             BufferedImage myPicture = ImageIO.read(new File("path-to-file"));
-             JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-             add(picLabel);
              */
             
             // Starts ActionListener to listen for keyboard events in panel
@@ -190,7 +187,7 @@ public class GameEnvironment extends JFrame {
                 }
                 
                 // checks if train crosses paths with tail & stops game
-                for(int i = 0; i < animalArray.size(); i++) {
+                for(int i = 0; i < tailArray.size(); i++) {
                     if(train.getX() == tailArray.get(i).getX() &&
                        train.getY() == tailArray.get(i).getY()) {
                         stopGame = true;
@@ -274,7 +271,7 @@ public class GameEnvironment extends JFrame {
             
             JPanel gameButtons = new JPanel(new BorderLayout());
             animationFrame.getContentPane().add(BorderLayout.SOUTH, gameButtons);
-            gameButtons.add(BorderLayout.EAST, Exit);
+            gameButtons.add(BorderLayout.EAST, Pause);
             // gameButtons.add(BorderLayout.CENTER, Save);
             gameButtons.add(BorderLayout.WEST, Exit);
             animationFrame.setVisible(true);

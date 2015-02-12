@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.io.*;
 import java.util.*;
+import java.net.*;
 
 /**
     Creates a GUI to display a menu on screen with
@@ -33,6 +34,20 @@ class MainEnvironment extends JFrame implements ActionListener{
        	MainEnvironment mainMenu = new MainEnvironment();
         mainMenu.displayMenu();
     }
+    
+    class DrawingPanel extends JPanel {
+    
+		public void paintComponent(Graphics g){ 
+	    
+	    	//Sets background color and adds background image
+		    Graphics2D g2 = (Graphics2D) g;
+		    URL trainanimalsURL = getClass().getResource("graphics/trainanimals.jpg");
+		    Image animals = new ImageIcon(trainanimalsURL).getImage();	   
+		    //super.paintComponent(g); //replace current painting
+		    g.drawImage(animals, 0, 0, this);  
+	
+	    }
+	}
     
     // Creates frame to display menu on screen
     public void displayMenu() {
