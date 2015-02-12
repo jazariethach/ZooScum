@@ -129,7 +129,7 @@ public class GameEnvironment extends JFrame {
 			//String path = file.getAbsolutePath();
 			//System.out.println(path);
 
-	    	URL trainURL = getClass().getResource("tc.jpg");
+	    	URL trainURL = getClass().getResource("graphics/tc.jpg");
         	Image trainIM = new ImageIcon(trainURL).getImage();
 	    
 	    	//Draws the image of the train
