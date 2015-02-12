@@ -103,7 +103,8 @@ public class GameEnvironment extends JFrame {
      */
     
     class DrawingPanel extends JPanel {
-	@Override
+	
+		@Override
         public void paintComponent(Graphics g) {
         	int score = 0; //no way of updating this currently since it's only in drawingpanel, need to make getScore
             // sets background color and image
@@ -120,9 +121,22 @@ public class GameEnvironment extends JFrame {
              */
             
             // Starts ActionListener to listen for keyboard events in panel
-        	//keyboard keyListener = new keyboard();
-           	//gridPanel.addKeyListener(keyListener);
-            
+        	Keyboard keyListener = new Keyboard();
+           	gridPanel.addKeyListener(keyListener);
+           	
+           	//Images in the game
+           	//File file = new File("tc.jpg");
+			//String path = file.getAbsolutePath();
+			//System.out.println(path);
+	    	URL trainURL = getClass().getResource("tc.jpg");
+        	Image trainIM = new ImageIcon(trainURL).getImage();
+	    
+	    	//Draws the image of the train
+	    	train.move();
+	    	int newXPos = train.getX();
+	    	int newYPos = train.getY();
+	    	g2.drawImage(trainIM, newXPos, newYPos, this);
+           	
             // Displays current time & score
             g.setFont(new Font("Corsiva Hebrew", Font.PLAIN, 40));
             g.setColor(Color.BLACK);
@@ -147,6 +161,7 @@ public class GameEnvironment extends JFrame {
     class Animate extends Thread {
         public void play() {
             try {
+            	train.move();
                 while(true) {
                     gameLogic();//gameLogic(pauseDelay);
                 }
@@ -172,7 +187,7 @@ public class GameEnvironment extends JFrame {
                 }
                 
                 // checks if train crosses paths with zoo and clears tailArray
-                if(train.getX() == 100/*zoo grid X*/ && train.getY() == 100/*zoo grid Y*/) {
+                if(train.getX() == 0/*zoo grid X*/ || train.getY() == 0/*zoo grid Y*/) {
                     tailArray.clear();
                 }
                 
@@ -204,6 +219,41 @@ public class GameEnvironment extends JFrame {
         } // end gameLogic
     } // end Animate
 
+	/**
+     Class to handle keyboard events to move train on screen
+     up, down, left, or right based on user input, maybe put this in game env
+     */
+    private class Keyboard extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e){
+	    	int key = e.getKeyCode();
+
+	   	 	if((key == KeyEvent.VK_LEFT) && (!train.getRight())){
+				train.setLeft(true);
+				train.setUp(false);
+				train.setDown(false);
+	    	}
+	   
+		  	if((key == KeyEvent.VK_RIGHT) && (!train.getLeft())){
+				train.setRight(true);
+				train.setUp(false);
+				train.setDown(false);
+	    	}	   
+
+		    if((key == KeyEvent.VK_UP) && (!train.getDown())){
+				train.setUp(true);
+				train.setRight(false);
+				train.setLeft(false);
+	    	}	
+	    
+	    	if((key == KeyEvent.VK_DOWN) && (!train.getUp())){
+				train.setDown(true);
+				train.setRight(false);
+				train.setLeft(false);
+	    	}
+ 
+		}
+     }
 	
     /**
      Class to display game menu with options to play game,

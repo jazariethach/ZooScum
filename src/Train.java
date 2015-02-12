@@ -38,49 +38,23 @@ public class Train{
     //set y pos of the cell
     public void setY(int y){ Ypos = y; }
     
-    /**
-     Class to handle keyboard events to move train on screen
-     up, down, left, or right based on user input, maybe put this in game env
-     */
-    private class Keyboard extends KeyAdapter {
-		@Override
-		public void keyPressed(KeyEvent e){
-	    	int key = e.getKeyCode();
-
-	   	 	if((key == KeyEvent.VK_LEFT) && (!right)){
-				left = true;
-				up = false;
-				down = false;
-	    	}
-	   
-		  	if((key == KeyEvent.VK_RIGHT) && (!left)){
-				right = true;
-				up = false;
-				down = false;
-	    	}	   
-
-		    if((key == KeyEvent.VK_UP) && (!down)){
-				up = true;
-				right = false;
-				left = false;
-	    	}	
-	    
-	    	if((key == KeyEvent.VK_DOWN) && (!up)){
-				down = true;
-				right = false;
-				left = false;
-	    	}
- 
-		}
-     }
+    public void setLeft(boolean x) { left = x; }
+    public void setRight(boolean x) { right = x; }    
+    public void setUp(boolean x) { up = x; }
+	public void setDown(boolean x) { down = x; }
+	
+	public boolean getLeft() { return left; }  
+    public boolean getRight() { return right; }
+    public boolean getUp() { return up; }
+	public boolean getDown() { return down; }
     
-     /**
+    /**
        Method moveTrain moves the head of the train and makes
        all of the train parts follow
     */
-  	private void move(){
-  		Keyboard playerInput = new KeyBoard();
-		if (left){  this.setX(this.getX() - SHIFT); }
+    
+  	public void move(){
+		if (left){ this.setX(this.getX() - SHIFT); }
 		if (right){ this.setX(this.getX() + SHIFT); }
 		if (up){ this.setY(this.getY() - SHIFT); }
 		if (down){ this.setY(this.getY() + SHIFT); }
