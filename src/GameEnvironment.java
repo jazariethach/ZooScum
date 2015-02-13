@@ -41,8 +41,9 @@
 		int maxGridX = maxX/64;
 		int maxY = 768;
 		int maxGridY = maxY/64;
- 
+ 		int numAnimals = 3;
 		private Image trainIM;
+		private Image animalIM;
 		private boolean gameover = false;
 		private int animalType;
 
@@ -50,17 +51,39 @@
 		private int y = 510;
 	
 		Train train = new Train();
+		ArrayList<Animal> animalArray = new ArrayList<Animal>();
+		ArrayList<Animal> tailArray = new ArrayList<Animal>();
+		
+		 /**
+Method addNewBoardAnimal adds Animal to ArrayList
+and gives it an initial position on the board
+*/
+private void addNewBoardAnimal() {
+Animal a = new Animal();
+a.setX((int)Math.round(Math.random() * 1024));
+a.setY((int)Math.round(Math.random() * 760));
+animalArray.add(a);
+}
+/**
+Method addNewTailAnimal adds Animal to ArrayList
+@param animal - an Animal object
+*/
+private void addNewTailAnimal(Animal tailAnimal) {
+tailArray.add(tailAnimal);
+}
+
+		
+		
 		/**
 		 Constructor gameEnv creates JFrame and JPanel for
 		 animals and train with animated JPanel
 		 */ 
+		 
 		public GameEnvironment() {
-	
-			// for(int i = 0; i < numAnimals; i++) {
-	//             addNewBoardAnimal();
-	//         }
-		
-	
+for(int i = 0; i < numAnimals; i++) {
+addNewBoardAnimal();
+}
+
 			animationFrame.getContentPane().add(BorderLayout.CENTER, gridPanel);
 			animationFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);    
 			animationFrame.setSize(maxX, maxY);
@@ -92,15 +115,21 @@
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				doDrawing(g);
+				showIcons(g);
 			} // end paintComponent
 		
 			public void icons(){
 				URL trainURL = getClass().getResource("graphics/tc.jpg");
 				trainIM = new ImageIcon(trainURL).getImage();
+				
+				URL animalURL = getClass().getResource("graphics/cat.png");
+				animalIM = new ImageIcon(animalURL).getImage();
 			}
-			public void doDrawing(Graphics g){
+			public void showIcons(Graphics g){
 				if (gameover == false){
+					for (int i=0; i<3; i++){
+						g.drawImage(animalIM, animalArray.get(i).getX(), animalArray.get(i).getY(), this);
+					}
 					g.drawImage(trainIM, x, y, this);
 					 Toolkit.getDefaultToolkit().sync();
 				}
