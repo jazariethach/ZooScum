@@ -29,11 +29,6 @@ public class GameEnvironment extends JFrame {
     Thread animate;
     DrawingPanel gridPanel = new DrawingPanel();
     JFrame animationFrame = new JFrame();
-	
-    private boolean left = false;
-    private boolean right = true;
-    private boolean up = false;
-    private boolean down = false;
     private final int SHIFT = 5;	
     private Timer timer;
     private final int DELAY = 140;
@@ -46,10 +41,6 @@ public class GameEnvironment extends JFrame {
     private Image animalIM;
     private boolean gameover = false;
     private int animalType;
-
-    private int x = 10;
-    private int y = 510;
-	
     Train train = new Train();
     ArrayList<Animal> animalArray = new ArrayList<Animal>();
     ArrayList<Animal> tailArray = new ArrayList<Animal>();
@@ -101,7 +92,6 @@ public class GameEnvironment extends JFrame {
        image and add animals and train to screen along with
        a timer and score.
     */
-	
     class DrawingPanel extends JPanel implements ActionListener {
 		public DrawingPanel(){
 			addKeyListener(new Keyboard());
@@ -127,62 +117,57 @@ public class GameEnvironment extends JFrame {
 				for (int i=0; i<3; i++){
 					g.drawImage(animalIM, animalArray.get(i).getX(), animalArray.get(i).getY(), this);
 				}
-				g.drawImage(trainIM, x, y, this);
+				g.drawImage(trainIM, train.getX(), train.getY(), this);
 				Toolkit.getDefaultToolkit().sync();
 			}
 		} // showIcons
-	  
-		public void move(){
-			if (left){ x = x - SHIFT; }
-			if (right){ x = x + SHIFT; }
-			if (up){ y = y - SHIFT; }
-			if (down){ y = y + SHIFT; }
-		}
+// 	  
+// 		public void move(){
+// 			if (left){ x = x - SHIFT; }
+// 			if (right){ x = x + SHIFT; }
+// 			if (up){ y = y - SHIFT; }
+// 			if (down){ y = y + SHIFT; }
+// 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (gameover == false) {
-			move();
+				train.move();
 			}
 			repaint();
 		}
+	 /**
+       Class to handle keyboard events to move train on screen
+       up, down, left, or right based on user input, maybe put this in game env
+    */
 		public class Keyboard extends KeyAdapter {
 			@Override
 			public void keyPressed(KeyEvent e){
 				int key = e.getKeyCode();
-				if((key == KeyEvent.VK_LEFT) && (!right)){
-					left=(true);
-					up=(false);
-					down=(false);
+				if((key == KeyEvent.VK_LEFT) && (!train.getRight())){
+					train.setLeft(true);
+					train.setUp(false);
+					train.setDown(false);
 				}
-	   
-				if((key == KeyEvent.VK_RIGHT) && (!left)){
-					right=(true);
-					up=(false);
-					down=(false);
-				}	   
-
-				if((key == KeyEvent.VK_UP) && (!down)){
-					up = true;
-					right = (false);
-					left=(false);
-				}	
-		
-				if((key == KeyEvent.VK_DOWN) && (!up)){
-					down=(true);
-					right=(false);
-					left=(false);
+				if((key == KeyEvent.VK_RIGHT) && (!train.getLeft())){
+					train.setRight(true);
+					train.setUp(false);
+					train.setDown(false);
+				}
+				if((key == KeyEvent.VK_UP) && (!train.getDown())){
+					train.setUp(true);
+					train.setRight(false);
+					train.setLeft(false);
+				}
+				if((key == KeyEvent.VK_DOWN) && (!train.getUp())){
+					train.setDown(true);
+					train.setRight(false);
+					train.setLeft(false);
 				}
 			} // keyPressed
 		} // Keyboard
     } // end DrawingPanel
-	  
-    /**
-       Class to handle keyboard events to move train on screen
-       up, down, left, or right based on user input, maybe put this in game env
-    */
-	
-	
+
     /**
        Class to display game menu with options to play game,
        read instructions, and exit the game
@@ -216,8 +201,6 @@ public class GameEnvironment extends JFrame {
 			if(buttonPress.getSource() == Exit) {
 				System.exit(0);
 			}
-		}
-        
+		} 
     }
-	
 }
