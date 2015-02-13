@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 public class Animal{
     private int Xpos, Ypos;
-   	private BufferedImage image;
+    private BufferedImage image;
     
     private final int height = 10;
     private final int width = 10;
@@ -29,23 +29,23 @@ public class Animal{
 	
     //set y pos of the cell
     public void setY(int y){ Ypos = y; }
-  /*  
+    /*  
     //get object's current image
     public BufferedImage getImage(){
-	return this.image;
+    return this.image;
     }
     
     //set object's current image
     public void setImage(String path, int col){
-	try{
-	    this.image = ImageIO.read(new File(path));
-	}catch(IOException e){
-	    System.out.println("Image did read\n");
-	}
-	//waiting on sprite sheet to generate params
-	this.image = this.image.getSubimage(col, this.row, width, height);
+    try{
+    this.image = ImageIO.read(new File(path));
+    }catch(IOException e){
+    System.out.println("Image did read\n");
+    }
+    //waiting on sprite sheet to generate params
+    this.image = this.image.getSubimage(col, this.row, width, height);
 	
     }
-*/
+    */
     
 }

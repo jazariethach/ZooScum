@@ -10,20 +10,20 @@ import java.awt.image.BufferedImage;
 
 public class Train{
 
- 	private boolean left = false;
+    private boolean left = false;
     private boolean right = true;
     private boolean up = false;
     private boolean down = false;
 	
-	int Xpos, Ypos;
- 	private final int SHIFT = 64;	
-   	final int height = 10;
-   	final int width = 10;
+    int Xpos, Ypos;
+    private final int SHIFT = 64;	
+    final int height = 10;
+    final int width = 10;
     BufferedImage image;
     
     public Train(){
-		this.Xpos = 0;
-		this.Ypos = 512;
+	this.Xpos = 0;
+	this.Ypos = 512;
     }
 
     //get x pos of the cell
@@ -41,40 +41,40 @@ public class Train{
     public void setLeft(boolean x) { left = x; }
     public void setRight(boolean x) { right = x; }    
     public void setUp(boolean x) { up = x; }
-	public void setDown(boolean x) { down = x; }
+    public void setDown(boolean x) { down = x; }
 	
-	public boolean getLeft() { return left; }  
+    public boolean getLeft() { return left; }  
     public boolean getRight() { return right; }
     public boolean getUp() { return up; }
-	public boolean getDown() { return down; }
+    public boolean getDown() { return down; }
     
     /**
        Method moveTrain moves the head of the train and makes
        all of the train parts follow
     */
     
-  	public void move(){
-		if (left){ this.setX(this.getX() - SHIFT); }
-		if (right){ this.setX(this.getX() + SHIFT); }
-		if (up){ this.setY(this.getY() - SHIFT); }
-		if (down){ this.setY(this.getY() + SHIFT); }
- 	}
+    public void move(){
+	if (left){ this.setX(this.getX() - SHIFT); }
+	if (right){ this.setX(this.getX() + SHIFT); }
+	if (up){ this.setY(this.getY() - SHIFT); }
+	if (down){ this.setY(this.getY() + SHIFT); }
+    }
 
     //get object's current image
-   /* public BufferedImage getImage(){
-	return this.image;
-    }
+    /* public BufferedImage getImage(){
+       return this.image;
+       }
     
-    //set object's current image
-    public void setImage(String path, int col, int row){
-	try{
-	    this.image = ImageIO.read(new File(path));
-	}catch(IOException e){
-	    System.out.println("Image did read\n");
-	}
-	//waiting on sprite sheet to generate params
-	this.image = this.image.getSubimage(col, row, width, height);
-    }*/
+       //set object's current image
+       public void setImage(String path, int col, int row){
+       try{
+       this.image = ImageIO.read(new File(path));
+       }catch(IOException e){
+       System.out.println("Image did read\n");
+       }
+       //waiting on sprite sheet to generate params
+       this.image = this.image.getSubimage(col, row, width, height);
+       }*/
 
 
 }
