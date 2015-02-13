@@ -8,6 +8,21 @@
 	import java.io.*;
 	import java.net.*;
 	import javax.swing.Timer;
+	import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 	/** 
 		Creates a JFrame that animates various animals 
@@ -64,6 +79,7 @@
 			animationFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);    
 			animationFrame.setSize(maxX, maxY);
 			animationFrame.setVisible(true);
+			gridPanel.requestFocus(); 
 		//	GameMenu game = new GameMenu();
 		//	game.makeMenu();
 		
@@ -82,9 +98,10 @@
 		class DrawingPanel extends JPanel implements ActionListener {
 			public DrawingPanel(){
 				addKeyListener(new Keyboard());
+				icons();
 				timer = new Timer(DELAY, this);
 				timer.start();
-				icons();
+				
 			}
 			@Override
 			public void paintComponent(Graphics g) {
@@ -99,10 +116,8 @@
 			public void doDrawing(Graphics g){
 				if (gameover == false){
 					g.drawImage(trainIM, x, y, this);
-				
 					 Toolkit.getDefaultToolkit().sync();
 				}
-			
 			}
 	  
 		   public void move(){
@@ -111,47 +126,46 @@
 				if (up){ y = y - SHIFT; }
 				if (down){ y = y + SHIFT; }
 			}
+			
 	
-			   @Override
-			public void actionPerformed(ActionEvent e) {
-			if (gameover == false) {
-				move();
-			}
-			repaint();
-		}
-		private class Keyboard extends KeyAdapter {
 			@Override
-			public void keyPressed(KeyEvent e){
-				int key = e.getKeyCode();
+			public void actionPerformed(ActionEvent e) {
+				if (gameover == false) {
+					move();
+				}
+				repaint();
+			}
+			public class Keyboard extends KeyAdapter {
+				@Override
+					public void keyPressed(KeyEvent e){
+						int key = e.getKeyCode();
 			
 				if((key == KeyEvent.VK_LEFT) && (!right)){
-					System.out.println("left");
 					left=(true);
 					up=(false);
 					down=(false);
 				}
 	   
 				if((key == KeyEvent.VK_RIGHT) && (!left)){
-					System.out.println("r");
 					right=(true);
 					up=(false);
 					down=(false);
 				}	   
 
 				if((key == KeyEvent.VK_UP) && (!down)){
-					System.out.println("up");
 					up = true;
 					right = (false);
 					left=(false);
 				}	
 		
 				if((key == KeyEvent.VK_DOWN) && (!up)){
-				System.out.println("down");
 					down=(true);
 					right=(false);
 					left=(false);
 				}
 			}
+				
+			
 		}
 	} // end DrawingPanel
 	  
