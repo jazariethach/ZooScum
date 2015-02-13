@@ -9,20 +9,6 @@
 	import java.net.*;
 	import javax.swing.Timer;
 	import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
 
 	/** 
 		Creates a JFrame that animates various animals 
@@ -80,8 +66,8 @@ import javax.swing.Timer;
 			animationFrame.setSize(maxX, maxY);
 			animationFrame.setVisible(true);
 			gridPanel.requestFocus(); 
-		//	GameMenu game = new GameMenu();
-		//	game.makeMenu();
+			GameMenu game = new GameMenu();
+			game.makeMenu();
 		
 			//open gameEnvr
 			//setBackground
@@ -179,34 +165,37 @@ import javax.swing.Timer;
 		 Class to display game menu with options to play game,
 		 read instructions, and exit the game
 		 */
-	//     class GameMenu implements ActionListener {
-	//         JButton Pause = new JButton("Pause");
-	//         /* 
-	//          import buttons if desired
-	//          implement save if desired
-	//          JButton Save = new JButton "Save & Exit"*/
-	//         
-	//         JButton Exit = new JButton("Exit");
-	//         
-	//         // Start GUI for game environment with menu
-	//         public void makeMenu() {
-	//             Pause.addActionListener(this);
-	//             // Save.addActionListener(this);
-	//             Exit.addActionListener(this);
-	//             
-	//             JPanel gameButtons = new JPanel(new BorderLayout());
-	//             animationFrame.getContentPane().add(BorderLayout.SOUTH, gameButtons);
-	//             gameButtons.add(BorderLayout.EAST, Pause);
-	//             // gameButtons.add(BorderLayout.CENTER, Save);
-	//             gameButtons.add(BorderLayout.WEST, Exit);
-	//             animationFrame.setVisible(true);
-	//         }
-	//         
-	//         // Performs actions if buttons are pressed
-	//     	@Override
-	//    		public void actionPerformed(ActionEvent e) {
-	//     	}
-	//         
-	//     }
+	    class GameMenu implements ActionListener {
+        	JButton Pause = new JButton("Pause");
+        /* 
+         import buttons if desired
+         implement save if desired
+         JButton Save = new JButton "Save & Exit"*/
+        
+        	JButton Exit = new JButton("Exit");
+        
+        // Start GUI for game environment with menu
+        public void makeMenu() {
+            Pause.addActionListener(this);
+            // Save.addActionListener(this);
+            Exit.addActionListener(this);
+            
+            JPanel gameButtons = new JPanel(new BorderLayout());
+            animationFrame.getContentPane().add(BorderLayout.SOUTH, gameButtons);
+            gameButtons.add(BorderLayout.EAST, Pause);
+            // gameButtons.add(BorderLayout.CENTER, Save);
+            gameButtons.add(BorderLayout.WEST, Exit);
+            animationFrame.setVisible(true);
+        }
+        
+        // Performs actions if buttons are pressed
+    	@Override
+   		public void actionPerformed(ActionEvent buttonPress) {
+   			if(buttonPress.getSource() == Exit) {
+				System.exit(0);
+			}
+    	}
+        
+    }
 	
 	}
