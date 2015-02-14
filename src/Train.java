@@ -20,11 +20,14 @@ public class Train{
     final int height = 10;
     final int width = 10;
     BufferedImage image;
+   	private ArrayList<Animal> tailArray = new ArrayList<Animal>();
     
     public Train(){
-	this.Xpos = 0;
-	this.Ypos = 512;
+		this.Xpos = 0;
+		this.Ypos = 512;
     }
+    
+    public ArrayList<Animal> getTA(){ return tailArray; };
 
     //get x pos of the cell
     public int getX(){ return Xpos; }
@@ -54,10 +57,23 @@ public class Train{
     */
     
     public void move(){
-	if (left){ this.setX(this.getX() - SHIFT); }
-	if (right){ this.setX(this.getX() + SHIFT); }
-	if (up){ this.setY(this.getY() - SHIFT); }
-	if (down){ this.setY(this.getY() + SHIFT); }
+    	for (int i=0; i<this.getTA().size(); i++){
+    		if (i==0){
+    			this.getTA().get(i).setX(this.getX());
+    			System.out.println("" + this.getX());
+				System.out.println("" + this.getY());
+    			this.getTA().get(i).setY(this.getY());
+    			
+    		}
+    		else{
+				this.getTA().get(i).setX(this.getTA().get(i-1).getX());
+				this.getTA().get(i).setY(this.getTA().get(i-1).getY());
+			}
+        }
+		if (left){ this.setX(this.getX() - SHIFT); }
+		if (right){ this.setX(this.getX() + SHIFT); }
+		if (up){ this.setY(this.getY() - SHIFT); }
+		if (down){ this.setY(this.getY() + SHIFT); }
     }
 
     //get object's current image

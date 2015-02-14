@@ -33,9 +33,9 @@ public class GameEnvironment extends JFrame {
     private Timer timer;
     private final int DELAY = 140;
     int maxX = 1024;
-    int maxGridX = maxX/64;
+   // int maxGridX = maxX/64;
     int maxY = 768;
-    int maxGridY = maxY/64;
+    //int maxGridY = maxY/64;
     int numAnimals = 3;
     private Image trainIM;
     private Image animalIM;
@@ -43,7 +43,7 @@ public class GameEnvironment extends JFrame {
     private int animalType;
     Train train = new Train();
     ArrayList<Animal> animalArray = new ArrayList<Animal>();
-    ArrayList<Animal> tailArray = new ArrayList<Animal>();
+    
 		
     /**
        Method addNewBoardAnimal adds Animal to ArrayList
@@ -60,7 +60,7 @@ public class GameEnvironment extends JFrame {
        @param animal - an Animal object
     */
     private void addNewTailAnimal(Animal tailAnimal) {
-		tailArray.add(tailAnimal);
+		train.getTA().add(train.getTA().size(), tailAnimal);
     }
 
     /**
@@ -72,7 +72,8 @@ public class GameEnvironment extends JFrame {
 		for(int i = 0; i < numAnimals; i++) {
 			addNewBoardAnimal();
 		}
-
+		train.getTA().add(new Animal());
+		
 		animationFrame.getContentPane().add(BorderLayout.CENTER, gridPanel);
 		animationFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);    
 		animationFrame.setSize(maxX, maxY);
@@ -118,21 +119,66 @@ public class GameEnvironment extends JFrame {
 					g.drawImage(animalIM, animalArray.get(i).getX(), animalArray.get(i).getY(), this);
 				}
 				g.drawImage(trainIM, train.getX(), train.getY(), this);
+				for (int i=0; i<train.getTA().size(); i++){
+					train.getTA().get(i).setY(train.getY());
+					g.drawImage(animalIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
+				}
 				Toolkit.getDefaultToolkit().sync();
 			}
 		} // showIcons
-// 	  
-// 		public void move(){
-// 			if (left){ x = x - SHIFT; }
-// 			if (right){ x = x + SHIFT; }
-// 			if (up){ y = y - SHIFT; }
-// 			if (down){ y = y + SHIFT; }
+		
+		void gameLogic(){//void gameLogic(int pauseDelay) throws InterruptedException {
+			if(!gameover) {
+	
+				// checks if train crosses paths with animals
+				for(int i = 0; i < animalArray.size(); i++) {
+					if( train.getX() == animalArray.get(i).getX() && train.getY() == animalArray.get(i).getY() ) {
+						train.getTA().add(animalArray.get(i));
+						animalArray.remove(i);
+					}
+				}
+				// checks if train crosses paths with zoo and clears tailArray
+				if(train.getX() == 0/*zoo grid X*/ || train.getY() == 0/*zoo grid Y*/) {
+					train.getTA().clear();
+				}
+				// checks if train crosses paths with tail & stops game
+				for(int i = 0; i < train.getTA().size(); i++) {
+					if(train.getX() == train.getTA().get(i).getX() && train.getY() == train.getTA().get(i).getY()) {
+						gameover = true;
+					}
+				}
+				// checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
+			if(train.getX() > maxX || train.getX() < 0 || train.getY() > maxY || train.getY() < 0) {
+					gameover = true;
+				}
+			}
+			if(gameover == true) {
+            	timer.stop();
+        	}
+		} // end gameLogic
+		
+// 		void move(){
+// 			for (int i=0; i<train.getTA().size(); i++){
+// 				if (i==0){
+// 					train.getTA().get(i).setX(train.getX());
+// 					System.out.println("" + train.getX());
+// 					System.out.println("" + train.getY());
+// 					train.getTA().get(i).setY(train.getY());
+// 				
+// 				}
+// 				else{
+// 					train.getTA().get(i).setX(train.getTA().get(i-1).getX());
+// 					train.getTA().get(i).setY(train.getTA().get(i-1).getY());
+// 				}
+//         	}
 // 		}
-
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (gameover == false) {
+				gameLogic();
 				train.move();
+				
 			}
 			repaint();
 		}
