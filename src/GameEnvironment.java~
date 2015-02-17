@@ -37,11 +37,12 @@ public class GameEnvironment extends JFrame {
 	Thread 				game;			// thread for game animation
 	GamePanel 			gamePanel;		// main panel for game animation
 	JFrame 				gameFrame;		// main frame for game panels/buttons
+	// private Timer 	timer;
 	private long 		timeStart;		// marks starting time
 	private long 		timeEnd;		// marks ending time
 	private long 		timePaused;		// stores amount of time paused
 	private long 		pausetimeStart;	// marks start of pause time
-	private long 		elapsedTime;	// elapsed playing time
+	private long 		realTime;		// elapsed playing time
 	int 				maxX;			// max horizontal window bounds
 	int 				maxY;			// max vertical window bounds
 	int 				numAnimals;		// starting number of escaped animals
@@ -49,16 +50,13 @@ public class GameEnvironment extends JFrame {
 	private Image		animalImg;		// image icon for animal image
 	private boolean 	gameover;		// check for when game ends
 	private int 		points;			// counts number of points earned
+	//private int 		animalType;			unused?
 	Train 				train;			// train object
 	ArrayList<Animal> 	animalArray;	// array of animals on screen
 	{
 		gamePanel 		= new GamePanel();
 		gameFrame 		= new JFrame();
 		timeStart 		= System.nanoTime() / 1000000000;
-		timeEnd			= 0;
-		timePaused		= 0;
-		pausetimeStart  = 0;
-		elapsedTime		= 0;
 		maxX 			= 1024;
 		maxY 			= 768;
 		numAnimals 		= 3;
@@ -99,6 +97,7 @@ public class GameEnvironment extends JFrame {
 		gameFrame.setVisible(true);
 		gamePanel.requestFocus();
 		GameMenu gameMenu = new GameMenu();
+		//gameMenu.MakeMenu();	
 	}// GameEnvironment
 
 	/**
@@ -130,7 +129,7 @@ public class GameEnvironment extends JFrame {
 		public void Icons() {
 			// TODO check images, read from sprite pages?
 			URL trainURL = getClass().getResource("/resources/a6c.png");
-			URL animalURL = getClass().getResource("/resources/imgres.png");
+			URL animalURL = getClass().getResource("/resources/imgres.jpg");
 			
 			try {
 				trainImg = new ImageIcon(trainURL).getImage();
@@ -147,6 +146,7 @@ public class GameEnvironment extends JFrame {
 		 */
 		public void ShowIcons(Graphics g) {
 			if (gameover == false) {
+				// TODO would need to reload correct image each loop
 				for (int i = 0; i < 3; i++) {
 					g.drawImage(animalImg, animalArray.get(i).getX(),
 							animalArray.get(i).getY(), this);
@@ -166,13 +166,13 @@ public class GameEnvironment extends JFrame {
 		 * 		  @param g	- Graphics object to draw text on screen
 		 */
 		public void ShowText(Graphics g) {
-			g.setFont(new Font("Cracked", Font.PLAIN, 24));
+			g.setFont(new Font("Cracked", Font.PLAIN, 40));
 			g.setColor(Color.BLACK);
 			String score = "Score: " + points;
-			g.drawString(score, 0, 5);
+			g.drawString(score, 0, 35);
 			// TODO may want to change to time remaining
-			String elapsed = "Time elapsed: " + elapsedTime;
-			g.drawString(elapsed, 0, 35);
+			String elapsed = "Time elapsed: " + realTime;
+			g.drawString(elapsed, 0, 65);
 		}// ShowText
 	}// GamePanel (JPanel)
 
@@ -186,7 +186,7 @@ public class GameEnvironment extends JFrame {
 		 */
 		public Game() {
 			try {
-				while (true) {
+				while (!gameover) {
 					GameLogic(DELAY);
 				}
 			} catch (Exception e) {
@@ -214,7 +214,11 @@ public class GameEnvironment extends JFrame {
 						animalArray.remove(i);
 					}
 				}
-				
+				// TODO **** increment points after dropping animals off ****
+				// checks if train crosses paths with zoo and clears tailArray
+				if(train.getX() == 0 || train.getY() == 0) {
+					train.getTA().clear();
+				}
 				// checks if train crosses paths with tail & stops game
 				for(int i = 0; i < train.getTA().size(); i++) {
 					if((train.getX() == train.getTA().get(i).getX()) && 
@@ -222,13 +226,6 @@ public class GameEnvironment extends JFrame {
 						gameover = true;
 					}
 				}
-				
-				// TODO **** increment points after dropping animals off ****
-				// checks if train crosses paths with zoo and clears tailArray
-				if(train.getX() == 0 || train.getY() == 0) {
-					train.getTA().clear();
-				}
-				
 				// checks if train goes beyond screen boundaries 
 				if(train.getX() > maxX || train.getX() < 0 || 
 						train.getY() > maxY || train.getY() < 0) {
@@ -238,10 +235,12 @@ public class GameEnvironment extends JFrame {
 			
 			if(!gameover) {
 				timeEnd = System.nanoTime() / 1000000000 - timePaused;
-				elapsedTime = (int)(timeEnd - timeStart); /* + previous load time */
+				realTime = (int)(timeEnd - timeStart); /* + previous load time */
+				
+				GameLogic(DELAY);
+				train.Move(); // TODO check method
 			}
         		
-			train.Move();
 			gamePanel.repaint();
 			
 			if(Thread.currentThread().interrupted()) {

@@ -62,8 +62,8 @@ class MainEnvironment extends JFrame implements ActionListener {
     	Back				= new JButton("Back to Menu");
     	instructionsPane	= new JEditorPane();
     	instructionsURL		= getClass().getClassLoader()
-    							.getResource("/resources/instructions.txt");
-    	menuBackgroundURL 	= getClass().getResource("/resources/madagascar_1672003c.jpg");
+    							.getResource("resources/instructions.txt");
+    	menuBackgroundURL 	= getClass().getResource("resources/madagascar_1672003c.jpg");
     	//menuImg 			= new ImageIcon(menuBackgroundURL).getImage();
     }
     

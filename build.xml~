@@ -16,11 +16,10 @@
   <property name="webRoot" value="${env.HOME}/public_html/cs48" />
   <property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs48/" />  
   <property name="project" value="ZooScum" />
-  <property name="package" value="src" />
   <property name="javadocDest" value="${webRoot}/${project}/javadoc" />
   <property name="javadocURL" value="${webBaseURL}/${project}/javadoc" />
-  <property name="mainClass" value="${package}/MainEnvironment" />
-  <property name="gameClass" value="${package}/GameEnvironment" />
+  <property name="mainClass" value="src/MainEnvironment" />
+  <property name="gameClass" value="src/GameEnvironment" />
   
   <path id="project.class.path">
     <pathelement location="build"/>
@@ -33,7 +32,7 @@
       <classpath refid="project.class.path"/>
     </javac>
     <copy todir="build/resources">
-      <fileset dir="resources" includes="*.jpg *.png *.txt"/>
+      <fileset dir="src/resources" includes="*.jpg"/>
     </copy>
   </target>
   
