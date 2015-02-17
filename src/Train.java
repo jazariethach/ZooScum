@@ -16,7 +16,7 @@ public class Train{
     private boolean down = false;
 	
     int Xpos, Ypos;
-    private final int SHIFT = 24;	
+    private final int SHIFT = 32;	
     final int height = 10;
     final int width = 10;
     BufferedImage image;

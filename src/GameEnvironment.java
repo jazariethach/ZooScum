@@ -29,7 +29,7 @@ public class GameEnvironment extends JFrame {
     Thread animate;
     DrawingPanel gridPanel = new DrawingPanel();
     JFrame animationFrame = new JFrame();
-    private final int SHIFT = 5;	
+    private final int SHIFT = 32;	
     private Timer timer;
     private final int DELAY = 140;
     int maxX = 1024;
@@ -51,8 +51,10 @@ public class GameEnvironment extends JFrame {
     */
     private void addNewBoardAnimal() {
 		Animal a = new Animal();
-		a.setX((int)Math.round(Math.random() * 1024));
-		a.setY((int)Math.round(Math.random() * 760));
+		int Xpos = 64*(int)(Math.round((Math.random()+0.1) * 32));
+		int Ypos = 64*(int)(Math.round((Math.random()+0.1) * 24));
+		a.setX(Xpos);
+		a.setY(Ypos);
 		animalArray.add(a);
     }
     /**
@@ -129,25 +131,27 @@ public class GameEnvironment extends JFrame {
 		
 		void gameLogic(){//void gameLogic(int pauseDelay) throws InterruptedException {
 			if(!gameover) {
-	
-				// checks if train crosses paths with animals
-				for(int i = 0; i < animalArray.size(); i++) {
-					if( train.getX() == animalArray.get(i).getX() && train.getY() == animalArray.get(i).getY() ) {
-						train.getTA().add(animalArray.get(i));
-						animalArray.remove(i);
-					}
-				}
 				// checks if train crosses paths with zoo and clears tailArray
 				if(train.getX() == 0/*zoo grid X*/ || train.getY() == 0/*zoo grid Y*/) {
 					train.getTA().clear();
 				}
+				
 				// checks if train crosses paths with tail & stops game
 				for(int i = 0; i < train.getTA().size(); i++) {
 					if(train.getX() == train.getTA().get(i).getX() && train.getY() == train.getTA().get(i).getY()) {
 						gameover = true;
 					}
 				}
-				// checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
+				
+				// checks if train crosses paths with animals
+				for(int i = 0; i < animalArray.size(); i++) {
+					if( train.getX() == animalArray.get(i).getX() && train.getY() == animalArray.get(i).getY() ) {
+						addNewTailAnimal(animalArray.get(i));
+						animalArray.remove(i);
+					}
+				}
+				
+			// checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
 			if(train.getX() > maxX || train.getX() < 0 || train.getY() > maxY || train.getY() < 0) {
 					gameover = true;
 				}
