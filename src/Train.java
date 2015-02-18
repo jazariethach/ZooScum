@@ -16,7 +16,7 @@ public class Train{
     private boolean down = false;
 	
     int Xpos, Ypos;
-    private final int SHIFT = 15;	
+    private int SHIFT = 15;	
     final int height = 10;
     final int width = 10;
     BufferedImage image;
@@ -28,7 +28,11 @@ public class Train{
     }
     
     public ArrayList<Animal> getTA(){ return tailArray; };
-
+	
+	public void incShift(){
+		SHIFT+=10;
+	}
+	
     //get x pos of the cell
     public int getX(){ return Xpos; }
    
