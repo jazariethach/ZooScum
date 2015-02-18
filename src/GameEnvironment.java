@@ -51,8 +51,8 @@ public class GameEnvironment extends JFrame {
     */
     private void addNewBoardAnimal() {
 		Animal a = new Animal();
-		int Xpos = 64*(int)(Math.round((Math.random()+0.1) * 32));
-		int Ypos = 64*(int)(Math.round((Math.random()+0.1) * 24));
+		int Xpos = 32*(int)(Math.random() * 32);
+		int Ypos = 32*(int)(Math.random() * 24);
 		a.setX(Xpos);
 		a.setY(Ypos);
 		animalArray.add(a);
@@ -62,7 +62,7 @@ public class GameEnvironment extends JFrame {
        @param animal - an Animal object
     */
     private void addNewTailAnimal(Animal tailAnimal) {
-		train.getTA().add(train.getTA().size(), tailAnimal);
+		train.getTA().add(tailAnimal);
     }
 
     /**
