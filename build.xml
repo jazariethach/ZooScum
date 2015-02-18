@@ -15,11 +15,14 @@
   -->
   <property name="webRoot" value="${env.HOME}/public_html/cs48" />
   <property name="webBaseURL" value="http://www.cs.ucsb.edu/~${env.USER}/cs48/" />  
-  <property name="project" value="ZooScum" />
+  <property name="project" value="ZooWrangler" />
+  <property name="package" value="src" />
   <property name="javadocDest" value="${webRoot}/${project}/javadoc" />
   <property name="javadocURL" value="${webBaseURL}/${project}/javadoc" />
   <property name="mainClass" value="MainEnvironment" />
-  <property name="gameClass" value="GameEnvironment" />
+  <property name="gameClass" value="GameEnvironment
+  <property name="resource.path" value="${package}/resources" />
+
   
   <path id="project.class.path">
     <pathelement location="build"/>
@@ -31,8 +34,8 @@
     <javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" >
       <classpath refid="project.class.path"/>
     </javac>
-    <copy todir="build/resources">
-      <fileset dir="resources" includes="*.jpg" excludes="Test**"/>
+    <copy todir="build/${resource.path}">
+      <fileset dir="${resource.path}" includes="*.jpg" excludes="Test**"/>
     </copy>
   </target>
   
@@ -42,7 +45,7 @@
     </java>
   </target>
   
-  <target name="run game" depends="compile" description="runs game environment">
+  <target name="run-game" depends="compile" description="runs game environment">
     <java classname="${gameClass}" fork="true">
       <classpath refid="project.class.path"/>
     </java>
@@ -58,7 +61,7 @@
     <manifestclasspath property="jar.class.path" jarfile="build/dist/${project}.jar">
       <classpath refid="project.class.path"/>
     </manifestclasspath>
-    <jar destfile="build/dist/${project}.jar" basedir="build/edu">
+    <jar destfile="build/dist/${project}.jar" basedir="build/src">
       <fileset dir="src">
         <exclude name="**/*.java" />
       </fileset>
@@ -69,8 +72,8 @@
     </jar>
  </target>
 
-  <target name="run jar" depends="jar">
-    <java fork="true" classname="${main}">
+  <target name="run-jar" depends="jar">
+    <java fork="true" classname="${mainClass}">
       <classpath>
         <pathelement location="build/dist/${project}.jar"/>
       </classpath>
@@ -93,7 +96,7 @@
     
     <chmod dir="${javadocDest}" perm="755" type="dir" includes="**" />
     <chmod dir="${javadocDest}" perm="755" type="file" includes="**/*" />
-    <echo>Javadoc deployed to ${javadocURL}</echo>
+    <echo>Javadoc deployed to ${javadocURL} (on CSIL)</echo>
     
   </target>
   
