@@ -38,13 +38,14 @@ public class GameEnvironment extends JFrame {
   	long startTime = 0;
   	long stopTime = 0;
   	long elapsedTime = 0;
-  	int maxY = 700;
+  	int maxY = 600;
     int pWidth = 40;
     int pHeight = 40;
     int zWidth = 75;
     int zHeight = 75;
     int zooX = 75;
     int zooY = 20;
+    int total = 0;
     int score = 0;
     //int maxGridY = maxY/64;
     int numAnimals = 3;
@@ -204,6 +205,8 @@ public class GameEnvironment extends JFrame {
 		    && (train.getY() > zooY - zHeight/2) && (train.getY() < zooY + zHeight/2)){
 		   int n = train.getTA().size();
 		   train.getTA().clear();
+		   train.incShift();
+		   total += n;
 		   score += n;
 		}
 				
@@ -244,9 +247,10 @@ public class GameEnvironment extends JFrame {
 		    } // endif
 		}
 		
-		if (numAnimals == score){
+		if (numAnimals == total){
 			animalArray.clear();
 			trashArray.clear();
+			total = 0;
 			numAnimals+=5;
 			numTrash+=2;
 			for(int i = 0; i < numAnimals; i++) {

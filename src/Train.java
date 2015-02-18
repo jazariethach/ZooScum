@@ -30,7 +30,7 @@ public class Train{
     public ArrayList<Animal> getTA(){ return tailArray; };
 	
 	public void incShift(){
-		SHIFT+=10;
+		SHIFT+=2;
 	}
 	
     //get x pos of the cell
