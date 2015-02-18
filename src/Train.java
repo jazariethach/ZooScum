@@ -61,14 +61,12 @@ public class Train{
     		if (i==0){
     			this.getTA().get(i).setX(this.getX());
     			this.getTA().get(i).setY(this.getY());
-    			System.out.print("First" + this.getTA().get(i).getX());
-    			System.out.println(" " + this.getTA().get(i).getY());
+
     		}
     		else{
 				this.getTA().get(i).setX(this.getTA().get(i-1).getX());
 				this.getTA().get(i).setY(this.getTA().get(i-1).getY());
-				System.out.print("XX" + this.getTA().get(i).getX());
-    			System.out.println(" " + this.getTA().get(i).getY());
+		
 			}
         }
 		if (left){ this.setX(this.getX() - SHIFT); }

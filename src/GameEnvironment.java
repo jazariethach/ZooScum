@@ -110,10 +110,10 @@ public class GameEnvironment extends JFrame {
 		} // end paintComponent
 		
 		public void icons(){
-			URL trainURL = getClass().getResource("graphics/tc.jpg");
+			URL trainURL = getClass().getResource("graphics/train.png");
 			trainIM = new ImageIcon(trainURL).getImage();
 				
-			URL animalURL = getClass().getResource("graphics/cat.png");
+			URL animalURL = getClass().getResource("graphics/canvas.png");
 			animalIM = new ImageIcon(animalURL).getImage();
 		} // icons
 		public void showIcons(Graphics g){
@@ -124,7 +124,14 @@ public class GameEnvironment extends JFrame {
 				g.drawImage(trainIM, train.getX(), train.getY(), this);
 				//train.getTA().add(new Animal());
 				for (int i=0; i<train.getTA().size(); i++){
-					g.drawImage(animalIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
+					URL aURL = getClass().getResource("graphics/cleft.png");
+					Image aIM = new ImageIcon(aURL).getImage();
+					if (train.getLeft()){
+						g.drawImage(aIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
+					}
+					else{
+						g.drawImage(animalIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
+					}
 				}
 				Toolkit.getDefaultToolkit().sync();
 			}
@@ -156,10 +163,8 @@ public class GameEnvironment extends JFrame {
 // 						System.out.println(""+animalArray.get(i).getY());
 // 						
 						int n = train.getTA().size();
-						System.out.println("n is" +n);
 						addNewTailAnimal(new Animal());
 						if (n==0){
-							System.out.println("hibaby");
 							train.getTA().get(n).setX(train.getX());
 							train.getTA().get(n).setY(train.getY());
 							animalArray.get(i).setX(2000);
@@ -202,21 +207,29 @@ public class GameEnvironment extends JFrame {
 			public void keyPressed(KeyEvent e){
 				int key = e.getKeyCode();
 				if((key == KeyEvent.VK_LEFT) && (!train.getRight())){
+					URL trainURL = getClass().getResource("graphics/left.png");
+					trainIM = new ImageIcon(trainURL).getImage();
 					train.setLeft(true);
 					train.setUp(false);
 					train.setDown(false);
 				}
 				if((key == KeyEvent.VK_RIGHT) && (!train.getLeft())){
+					URL trainURL = getClass().getResource("graphics/train.png");
+					trainIM = new ImageIcon(trainURL).getImage();
 					train.setRight(true);
 					train.setUp(false);
 					train.setDown(false);
 				}
 				if((key == KeyEvent.VK_UP) && (!train.getDown())){
+					URL trainURL = getClass().getResource("graphics/up.png");
+					trainIM = new ImageIcon(trainURL).getImage();
 					train.setUp(true);
 					train.setRight(false);
 					train.setLeft(false);
 				}
 				if((key == KeyEvent.VK_DOWN) && (!train.getUp())){
+					URL trainURL = getClass().getResource("graphics/down.png");
+					trainIM = new ImageIcon(trainURL).getImage();
 					train.setDown(true);
 					train.setRight(false);
 					train.setLeft(false);
