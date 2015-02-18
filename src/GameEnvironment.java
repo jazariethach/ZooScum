@@ -53,7 +53,11 @@ public class GameEnvironment extends JFrame {
     private Image trainIM;
     private Image animalIM;
     private Image zooIM;
+    private Image pooIM;
     private Image trashIM;
+    boolean aBroom = false;
+   	int nBroom = 10;
+    Broom broom = new Broom();
     private boolean gameover = false;
     private boolean pause = false;
     private int animalType;
@@ -156,6 +160,8 @@ public class GameEnvironment extends JFrame {
 		g.setColor(Color.BLACK);
 		String displayScore = "Score: " + score;
 		g.drawString(displayScore, 870, 35);
+		String displayBroom = "Brooms: " + nBroom;
+		g.drawString(displayBroom, 870, 60);
 		//String elapsed = "Time elapsed: " + getTime()/1000;
 		//g.drawString(elapsed, 0, 45);
 	}
@@ -169,8 +175,11 @@ public class GameEnvironment extends JFrame {
 	    URL zooURL = getClass().getResource("graphics/pokeCenter.jpg");//zoo
 	    zooIM = new ImageIcon(zooURL).getImage();
 	    
-	    URL trashURL = getClass().getResource("graphics/poo.jpg");//zoo
-	    trashIM = new ImageIcon(trashURL).getImage();
+	    URL pooURL = getClass().getResource("graphics/poo.jpg");//zoo
+	    pooIM = new ImageIcon(pooURL).getImage();
+	    
+	    URL broomURL = getClass().getResource("graphics/broom.png");//zoo
+	    trashIM = new ImageIcon(broomURL).getImage();
 
 	} // icons
 	public void showIcons(Graphics g){
@@ -179,7 +188,7 @@ public class GameEnvironment extends JFrame {
 		    g.drawImage(animalIM, animalArray.get(i).getX(), animalArray.get(i).getY(), this);
 		}
 		for (int i=0; i<numTrash; i++){
-			g.drawImage(trashIM, trashArray.get(i).getX(), trashArray.get(i).getY(), this);
+			g.drawImage(pooIM, trashArray.get(i).getX(), trashArray.get(i).getY(), this);
 		}
 		g.drawImage(trainIM, train.getX(), train.getY(), this);
 		g.drawImage(zooIM, zooX, zooY,this);
@@ -193,6 +202,9 @@ public class GameEnvironment extends JFrame {
 		    else{
 			g.drawImage(animalIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
 		    }
+		}
+		if (aBroom == true){
+			g.drawImage(trashIM, broom.getX(), broom.getY(), this);
 		}
 		Toolkit.getDefaultToolkit().sync();
 	    }
@@ -216,6 +228,17 @@ public class GameEnvironment extends JFrame {
 				gameover = true;
 		    }
 		}
+		
+		// check if broom crosses path with poo
+		for(int i = 0; i < trashArray.size(); i++) {					
+		    if ((trashArray.get(i).getX() - pWidth/2) < broom.getX() && (broom.getX() < (trashArray.get(i).getX() + pWidth/2)) 
+			&& (broom.getY() > trashArray.get(i).getY() - pHeight/2) && (broom.getY() < trashArray.get(i).getY() + pHeight/2)){						
+				trashArray.get(i).setX(2000);
+				trashArray.get(i).setY(2000);
+				score++;
+			}
+		}
+		
 		
 		// checks if train crosses paths with poo
 		for(int i = 0; i < trashArray.size(); i++) {					
@@ -277,6 +300,8 @@ public class GameEnvironment extends JFrame {
 	    if (gameover == false && pause == false) {
 			gameLogic();
 			train.move();
+			if (aBroom == true && nBroom >= 0)
+				broom.move();
 	    }
 	    repaint();
 	}
@@ -315,6 +340,12 @@ public class GameEnvironment extends JFrame {
 				train.setDown(true);
 				train.setRight(false);
 				train.setLeft(false);
+			}
+			if (key == KeyEvent.VK_SPACE && nBroom > 0){
+				broom.setXY(train.getX(), train.getY());
+				aBroom = true;
+				nBroom--;
+				broom.setDirection(train);
 			}
 			if (key == KeyEvent.VK_ESCAPE && pause == false){
 				GameMenu game = new GameMenu();
