@@ -51,8 +51,8 @@ public class GameEnvironment extends JFrame {
     */
     private void addNewBoardAnimal() {
 		Animal a = new Animal();
-		int Xpos = 32*(int)(Math.random() * 32);
-		int Ypos = 32*(int)(Math.random() * 24);
+		int Xpos = SHIFT*(int)(Math.random() * 32);
+		int Ypos = SHIFT*(int)(Math.random() * 24);
 		a.setX(Xpos);
 		a.setY(Ypos);
 		animalArray.add(a);
