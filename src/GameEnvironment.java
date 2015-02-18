@@ -74,7 +74,6 @@ public class GameEnvironment extends JFrame {
 		for(int i = 0; i < numAnimals; i++) {
 			addNewBoardAnimal();
 		}
-		train.getTA().add(new Animal());
 		
 		animationFrame.getContentPane().add(BorderLayout.CENTER, gridPanel);
 		animationFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);    
@@ -117,10 +116,11 @@ public class GameEnvironment extends JFrame {
 		} // icons
 		public void showIcons(Graphics g){
 			if (gameover == false){
-				for (int i=0; i<3; i++){
+				for (int i=0; i<numAnimals; i++){
 					g.drawImage(animalIM, animalArray.get(i).getX(), animalArray.get(i).getY(), this);
 				}
 				g.drawImage(trainIM, train.getX(), train.getY(), this);
+				//train.getTA().add(new Animal());
 				for (int i=0; i<train.getTA().size(); i++){
 					train.getTA().get(i).setY(train.getY());
 					g.drawImage(animalIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);

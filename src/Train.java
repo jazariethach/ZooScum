@@ -16,7 +16,7 @@ public class Train{
     private boolean down = false;
 	
     int Xpos, Ypos;
-    private final int SHIFT = 32;	
+    private final int SHIFT = 15;	
     final int height = 10;
     final int width = 10;
     BufferedImage image;
@@ -60,8 +60,6 @@ public class Train{
     	for (int i=0; i<this.getTA().size(); i++){
     		if (i==0){
     			this.getTA().get(i).setX(this.getX());
-    			System.out.println("" + this.getX());
-				System.out.println("" + this.getY());
     			this.getTA().get(i).setY(this.getY());
     			
     		}
