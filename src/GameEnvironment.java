@@ -29,12 +29,14 @@ public class GameEnvironment extends JFrame {
     Thread animate;
     DrawingPanel gridPanel = new DrawingPanel();
     JFrame animationFrame = new JFrame();
-    private final int SHIFT = 32;	
+    private final int SHIFT = 15;	
     private Timer timer;
     private final int DELAY = 140;
-    int maxX = 1024;
+    int maxX = 1000;
    // int maxGridX = maxX/64;
-    int maxY = 768;
+    int maxY = 780;
+    int pWidth = 40;
+    int pHeight = 40;
     //int maxGridY = maxY/64;
     int numAnimals = 3;
     private Image trainIM;
@@ -51,8 +53,8 @@ public class GameEnvironment extends JFrame {
     */
     private void addNewBoardAnimal() {
 		Animal a = new Animal();
-		int Xpos = SHIFT*(int)(Math.random() * 32);
-		int Ypos = SHIFT*(int)(Math.random() * 24);
+		int Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
+		int Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
 		a.setX(Xpos);
 		a.setY(Ypos);
 		animalArray.add(a);
@@ -122,7 +124,6 @@ public class GameEnvironment extends JFrame {
 				g.drawImage(trainIM, train.getX(), train.getY(), this);
 				//train.getTA().add(new Animal());
 				for (int i=0; i<train.getTA().size(); i++){
-					train.getTA().get(i).setY(train.getY());
 					g.drawImage(animalIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
 				}
 				Toolkit.getDefaultToolkit().sync();
@@ -130,7 +131,7 @@ public class GameEnvironment extends JFrame {
 		} // showIcons
 		
 		void gameLogic(){//void gameLogic(int pauseDelay) throws InterruptedException {
-			if(!gameover) {
+			if(gameover == false) {
 				// checks if train crosses paths with zoo and clears tailArray
 				if(train.getX() == 0/*zoo grid X*/ || train.getY() == 0/*zoo grid Y*/) {
 					train.getTA().clear();
@@ -144,11 +145,34 @@ public class GameEnvironment extends JFrame {
 				}
 				
 				// checks if train crosses paths with animals
-				for(int i = 0; i < animalArray.size(); i++) {
-					if( train.getX() == animalArray.get(i).getX() && train.getY() == animalArray.get(i).getY() ) {
-						addNewTailAnimal(animalArray.get(i));
-						animalArray.remove(i);
-					}
+				for(int i = 0; i < animalArray.size(); i++) {					
+					if ((animalArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (animalArray.get(i).getX() + pWidth/2)) 
+					&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){
+					// 	System.out.println("train");
+// 						System.out.println(""+train.getX());
+// 						System.out.println(""+train.getY());
+// 						System.out.println("animal");
+// 						System.out.println(""+animalArray.get(i).getX());
+// 						System.out.println(""+animalArray.get(i).getY());
+// 						
+						int n = train.getTA().size();
+						System.out.println("n is" +n);
+						addNewTailAnimal(new Animal());
+						if (n==0){
+							System.out.println("hibaby");
+							train.getTA().get(n).setX(train.getX());
+							train.getTA().get(n).setY(train.getY());
+							animalArray.get(i).setX(2000);
+							animalArray.get(i).setY(2000);
+						}
+						else{
+							train.getTA().get(n).setX(train.getTA().get(n-1).getX());
+							train.getTA().get(n).setY(train.getTA().get(n-1).getY());
+							animalArray.get(i).setX(2000);
+							animalArray.get(i).setY(2000);
+					
+						}	
+					} // endif
 				}
 				
 			// checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
@@ -160,29 +184,12 @@ public class GameEnvironment extends JFrame {
             	timer.stop();
         	}
 		} // end gameLogic
-		
-// 		void move(){
-// 			for (int i=0; i<train.getTA().size(); i++){
-// 				if (i==0){
-// 					train.getTA().get(i).setX(train.getX());
-// 					System.out.println("" + train.getX());
-// 					System.out.println("" + train.getY());
-// 					train.getTA().get(i).setY(train.getY());
-// 				
-// 				}
-// 				else{
-// 					train.getTA().get(i).setX(train.getTA().get(i-1).getX());
-// 					train.getTA().get(i).setY(train.getTA().get(i-1).getY());
-// 				}
-//         	}
-// 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (gameover == false) {
 				gameLogic();
 				train.move();
-				
 			}
 			repaint();
 		}
