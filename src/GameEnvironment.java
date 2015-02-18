@@ -41,33 +41,51 @@ public class GameEnvironment extends JFrame {
     int zHeight = 75;
     int zooX = 75;
     int zooY = 20;
+    int score = 0;
     //int maxGridY = maxY/64;
-    int numAnimals = 3;
+    int numAnimals = 15;
+    int numTrash = 3;
     private Image trainIM;
     private Image animalIM;
     private Image zooIM;
+    private Image trashIM;
     private boolean gameover = false;
     private int animalType;
     Train train = new Train();
     ArrayList<Animal> animalArray = new ArrayList<Animal>();
+    ArrayList<Animal> trashArray = new ArrayList<Animal>();
     
 		
     /**
        Method addNewBoardAnimal adds Animal to ArrayList
        and gives it an initial position on the board
     */
+    private void addNewTrash() {
+    	Animal a = new Animal();
+		int Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
+		int Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
+		while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2)) 
+			  && (Ypos > zooY - zHeight/2) && (Ypos < zooY + zHeight/2)){ 
+			Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
+			Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
+		}
+		a.setX(Xpos);
+		a.setY(Ypos);
+		trashArray.add(a);
+    
+    }
     private void addNewBoardAnimal() {
-	Animal a = new Animal();
-	int Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
-	int Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
-	while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2)) 
-	      && (Ypos > zooY - zHeight/2) && (Ypos < zooY + zHeight/2)){ 
-	    Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
-	    Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
-	}
-	a.setX(Xpos);
-	a.setY(Ypos);
-	animalArray.add(a);
+		Animal a = new Animal();
+		int Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
+		int Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
+		while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2)) 
+			  && (Ypos > zooY - zHeight/2) && (Ypos < zooY + zHeight/2)){ 
+			Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
+			Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
+		}
+		a.setX(Xpos);
+		a.setY(Ypos);
+		animalArray.add(a);
     }
     /**
        Method addNewTailAnimal adds Animal to ArrayList
@@ -83,17 +101,20 @@ public class GameEnvironment extends JFrame {
     */ 
 		 
     public GameEnvironment() {
-	for(int i = 0; i < numAnimals; i++) {
-	    addNewBoardAnimal();
-	}
+		for(int i = 0; i < numAnimals; i++) {
+			addNewBoardAnimal();
+		}
+		for(int i = 0; i < numTrash; i++) {
+	    	addNewTrash();
+		}
 		
-	animationFrame.getContentPane().add(BorderLayout.CENTER, gridPanel);
-	animationFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);    
-	animationFrame.setSize(maxX, maxY);
-	animationFrame.setVisible(true);
-	gridPanel.requestFocus(); 
-	GameMenu game = new GameMenu();
-	game.makeMenu();
+		animationFrame.getContentPane().add(BorderLayout.CENTER, gridPanel);
+		animationFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);    
+		animationFrame.setSize(maxX, maxY);
+		animationFrame.setVisible(true);
+		gridPanel.requestFocus(); 
+		GameMenu game = new GameMenu();
+		game.makeMenu();
 		
 	//open gameEnvr
 	//setBackground
@@ -118,9 +139,17 @@ public class GameEnvironment extends JFrame {
 	    super.paintComponent(g);
 	    showIcons(g);
 	} // end paintComponent
-		
+	public void showScore(Graphics g){
+		// Displays current time & score
+		g.setFont(new Font("Corsiva Hebrew", Font.PLAIN, 40));
+		g.setColor(Color.BLACK);
+		String displayScore = "Score: " + score;
+		g.drawString(displayScore, 0, 35);
+		String elapsed = "Time elapsed: " + timer;
+		g.drawString(elapsed, 0, 65);
+	}
 	public void icons(){
-	    URL trainURL = getClass().getResource("graphics/train.png");//train
+	    URL trainURL = getClass().getResource("graphics/tright.png");//train
 	    trainIM = new ImageIcon(trainURL).getImage();
 		    
 	    URL animalURL = getClass().getResource("graphics/canvas.png");//cat
@@ -128,12 +157,18 @@ public class GameEnvironment extends JFrame {
 	
 	    URL zooURL = getClass().getResource("graphics/pokeCenter.jpg");//zoo
 	    zooIM = new ImageIcon(zooURL).getImage();
+	    
+	    URL trashURL = getClass().getResource("graphics/poo.jpg");//zoo
+	    trashIM = new ImageIcon(trashURL).getImage();
 
 	} // icons
 	public void showIcons(Graphics g){
 	    if (gameover == false){
 		for (int i=0; i<numAnimals; i++){
 		    g.drawImage(animalIM, animalArray.get(i).getX(), animalArray.get(i).getY(), this);
+		}
+		for (int i=0; i<numTrash; i++){
+			g.drawImage(trashIM, trashArray.get(i).getX(), trashArray.get(i).getY(), this);
 		}
 		g.drawImage(trainIM, train.getX(), train.getY(), this);
 		g.drawImage(zooIM, zooX, zooY,this);
@@ -157,42 +192,45 @@ public class GameEnvironment extends JFrame {
 		// checks if train crosses paths with zoo and clears tailArray
 		if ((zooX - zWidth/2) < train.getX() && (train.getX() < (zooX + zWidth/2)) 
 		    && (train.getY() > zooY - zHeight/2) && (train.getY() < zooY + zHeight/2)){
-		    train.getTA().clear();
+		   int n = train.getTA().size();
+		   train.getTA().clear();
+		   score += n;
 		}
 				
 		// checks if train crosses paths with tail & stops game
 		for(int i = 0; i < train.getTA().size(); i++) {
 		    if(train.getX() == train.getTA().get(i).getX() && train.getY() == train.getTA().get(i).getY()) {
-			gameover = true;
+				gameover = true;
 		    }
+		}
+		
+		// checks if train crosses paths with poo
+		for(int i = 0; i < trashArray.size(); i++) {					
+		    if ((trashArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (trashArray.get(i).getX() + pWidth/2)) 
+			&& (train.getY() > trashArray.get(i).getY() - pHeight/2) && (train.getY() < trashArray.get(i).getY() + pHeight/2)){						
+				gameover = true;
+		    } // endif
 		}
 				
 		// checks if train crosses paths with animals
 		for(int i = 0; i < animalArray.size(); i++) {					
 		    if ((animalArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (animalArray.get(i).getX() + pWidth/2)) 
-			&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){
-			// 	System.out.println("train");
-			// 						System.out.println(""+train.getX());
-			// 						System.out.println(""+train.getY());
-			// 						System.out.println("animal");
-			// 						System.out.println(""+animalArray.get(i).getX());
-			// 						System.out.println(""+animalArray.get(i).getY());
-			// 						
-			int n = train.getTA().size();
-			addNewTailAnimal(new Animal());
-			if (n==0){
-			    train.getTA().get(n).setX(train.getX());
-			    train.getTA().get(n).setY(train.getY());
-			    animalArray.get(i).setX(2000);
-			    animalArray.get(i).setY(2000);
-			}
-			else{
-			    train.getTA().get(n).setX(train.getTA().get(n-1).getX());
-			    train.getTA().get(n).setY(train.getTA().get(n-1).getY());
-			    animalArray.get(i).setX(2000);
-			    animalArray.get(i).setY(2000);
+			&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){						
+				int n = train.getTA().size();
+				addNewTailAnimal(new Animal());
+				if (n==0){
+					train.getTA().get(n).setX(train.getX());
+					train.getTA().get(n).setY(train.getY());
+					animalArray.get(i).setX(2000);
+					animalArray.get(i).setY(2000);
+				}
+				else{
+					train.getTA().get(n).setX(train.getTA().get(n-1).getX());
+					train.getTA().get(n).setY(train.getTA().get(n-1).getY());
+					animalArray.get(i).setX(2000);
+					animalArray.get(i).setY(2000);
 					
-			}	
+				}	
 		    } // endif
 		}
 				
@@ -224,28 +262,28 @@ public class GameEnvironment extends JFrame {
 	    public void keyPressed(KeyEvent e){
 		int key = e.getKeyCode();
 		if((key == KeyEvent.VK_LEFT) && (!train.getRight())){
-		    URL trainURL = getClass().getResource("graphics/left.png");
+		    URL trainURL = getClass().getResource("graphics/tleft.png");
 		    trainIM = new ImageIcon(trainURL).getImage();
 		    train.setLeft(true);
 		    train.setUp(false);
 		    train.setDown(false);
 		}
 		if((key == KeyEvent.VK_RIGHT) && (!train.getLeft())){
-		    URL trainURL = getClass().getResource("graphics/train.png");
+		    URL trainURL = getClass().getResource("graphics/tright.png");
 		    trainIM = new ImageIcon(trainURL).getImage();
 		    train.setRight(true);
 		    train.setUp(false);
 		    train.setDown(false);
 		}
 		if((key == KeyEvent.VK_UP) && (!train.getDown())){
-		    URL trainURL = getClass().getResource("graphics/up.png");
+		    URL trainURL = getClass().getResource("graphics/tup.png");
 		    trainIM = new ImageIcon(trainURL).getImage();
 		    train.setUp(true);
 		    train.setRight(false);
 		    train.setLeft(false);
 		}
 		if((key == KeyEvent.VK_DOWN) && (!train.getUp())){
-		    URL trainURL = getClass().getResource("graphics/down.png");
+		    URL trainURL = getClass().getResource("graphics/tdown.png");
 		    trainIM = new ImageIcon(trainURL).getImage();
 		    train.setDown(true);
 		    train.setRight(false);
@@ -260,26 +298,26 @@ public class GameEnvironment extends JFrame {
        read instructions, and exit the game
     */
     class GameMenu implements ActionListener {
-	JButton Pause = new JButton("Pause");
-	/* 
-	   import buttons if desired
-	   implement save if desired
-	   JButton Save = new JButton "Save & Exit"*/
+		JButton Pause = new JButton("Pause");
+		/* 
+		   import buttons if desired
+		   implement save if desired
+		   JButton Save = new JButton "Save & Exit"*/
 		
-	JButton Exit = new JButton("Exit");
+		JButton Exit = new JButton("Exit");
 		
-        // Start GUI for game environment with menu
-        public void makeMenu() {
-            Pause.addActionListener(this);
-            // Save.addActionListener(this);
-            Exit.addActionListener(this);
-            
-            JPanel gameButtons = new JPanel(new BorderLayout());
-            animationFrame.getContentPane().add(BorderLayout.SOUTH, gameButtons);
-            gameButtons.add(BorderLayout.EAST, Pause);
-            // gameButtons.add(BorderLayout.CENTER, Save);
-            gameButtons.add(BorderLayout.WEST, Exit);
-            animationFrame.setVisible(true);
+			// Start GUI for game environment with menu
+			public void makeMenu() {
+				Pause.addActionListener(this);
+				// Save.addActionListener(this);
+				Exit.addActionListener(this);
+			
+				JPanel gameButtons = new JPanel(new BorderLayout());
+				animationFrame.getContentPane().add(BorderLayout.SOUTH, gameButtons);
+				gameButtons.add(BorderLayout.EAST, Pause);
+				// gameButtons.add(BorderLayout.CENTER, Save);
+				gameButtons.add(BorderLayout.WEST, Exit);
+				animationFrame.setVisible(true);
         }
         
         // Performs actions if buttons are pressed
