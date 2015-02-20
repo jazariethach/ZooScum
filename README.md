@@ -46,3 +46,4 @@ To build the program properly, the user must be careful not to move the files ar
 * Use the 'esc' key to pull up the 'pause' and 'exit' menu buttons
 
 
+Link to the GitHub: https://github.com/jazariethach/ZooScum
