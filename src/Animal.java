@@ -9,14 +9,14 @@ import java.net.*;
 import java.awt.image.BufferedImage;
 
 public class Animal{
-    private int Xpos, Ypos; 
+    int Xpos, Ypos; 
     private final int height = 10;
     private final int width = 10;
     private final int row = (int)Math.round(Math.random()*3); //for 3 animals tmp
-    private boolean dead = false;
-    private URL catURL = getClass().getResource("graphics/canvas.png");//cat
-    private URL stateURL = catURL;
-    private Image stateIM = new ImageIcon(stateURL).getImage();
+    boolean dead = false;
+    URL catURL = getClass().getResource("graphics/canvas.png");//cat
+    URL stateURL = catURL;
+  	Image stateIM = new ImageIcon(stateURL).getImage();
     
     public Animal(){}
     
@@ -38,11 +38,12 @@ public class Animal{
     public void setY(int y){ Ypos = y; }
 
     public boolean isDead(){ return this.dead; }
-    
-    public void setDead(){ 
+	
+	public void setDead(){ 
     	URL bloodURL =  getClass().getResource("graphics/blood.png");//blood
     	stateIM = new ImageIcon(bloodURL).getImage(); 
-    	this.dead = true; }
+    	this.dead = true; 
+    }
     
     public Image getIM() {
     	stateIM = new ImageIcon(stateURL).getImage();
@@ -50,7 +51,8 @@ public class Animal{
     }
     
     public void setURL(){ 
-    URL bloodURL =  getClass().getResource("graphics/blood.png");//blood
-    stateURL = bloodURL; }
+    	URL bloodURL =  getClass().getResource("graphics/blood.png");//blood
+    	stateURL = bloodURL; 
+    }
     
 }

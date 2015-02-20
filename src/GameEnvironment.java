@@ -90,7 +90,7 @@ public class GameEnvironment extends JFrame {
     
     }
     private void addNewBoardAnimal() {
-		Animal a = new Animal();
+		Penguin a = new Penguin();
 		int Xpos = SHIFT*(int)(Math.random() * maxX/SHIFT);
 		int Ypos = SHIFT*(int)(Math.random() * maxY/SHIFT);
 		while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2)) 
@@ -107,7 +107,7 @@ public class GameEnvironment extends JFrame {
        @param animal - an Animal object
     */
     private void addNewTailAnimal(Animal tailAnimal) {
-	train.getTA().add(tailAnimal);
+		train.getTA().add(tailAnimal);
     }
 
     /**
@@ -205,11 +205,11 @@ public class GameEnvironment extends JFrame {
 		for (int i=0; i<train.getTA().size(); i++){
 		    URL aURL = getClass().getResource("graphics/cleft.png");//cat left
 		    Image aIM = new ImageIcon(aURL).getImage();
-		    if (train.getLeft()){
-			g.drawImage(aIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
+		    if (train.getLeft()){ // change to tailArray.get(i).getIM(); both left and right
+				g.drawImage(aIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
 		    }
 		    else{
-			g.drawImage(animalIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
+				g.drawImage(animalIM, train.getTA().get(i).getX(), train.getTA().get(i).getY(), this);
 		    }
 		}
 		if (aBroom == true){
@@ -250,7 +250,7 @@ public class GameEnvironment extends JFrame {
 					animalArray.get(i).setY(2000);
 					score++;
 					int n = train.getTA().size();
-					addNewTailAnimal(new Animal());
+					addNewTailAnimal(new Penguin());
 					if (n==0){
 						train.getTA().get(n).setX(train.getX());
 						train.getTA().get(n).setY(train.getY());
@@ -287,7 +287,7 @@ public class GameEnvironment extends JFrame {
 			&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){						
 				animalArray.get(i).setURL();
 				animalArray.get(i).setDead();
-				//animalArray.get(i).getIM();
+				animalArray.get(i).getIM();
 		    } // endif
 		}
 		
