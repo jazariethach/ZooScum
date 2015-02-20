@@ -24,7 +24,7 @@ The Game begins with a menu screen that has the following options: New Game, Ins
 
 ##Exit
 ----
-*The "Exit" button closes the game and ends the session
+* The "Exit" button closes the game and ends the session
 
 
 To build the program properly, the user must be careful not to move the files around and keep it so that the java files are located in the 'src' directory, the class files get sent to the 'build' directory, and the graphics are in the 'graphics' directory
@@ -33,7 +33,7 @@ To build the program properly, the user must be careful not to move the files ar
 ##Bugs
 * There is a bug correlating to the panel size of our window. While the user can stretch the frame to a larger size, the boarder that the train interacts with isn't visible and doesn't extend, so it can crash unexpectedly.
 
-*The game over splash screen doesn't pop up when the train crashes so there is no way to restart the game without completely exiting and reinitializing the game again.
+* The game over splash screen doesn't pop up when the train crashes so there is no way to restart the game without completely exiting and reinitializing the game again.
 
 
 ##How to Play
