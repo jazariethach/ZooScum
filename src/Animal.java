@@ -9,12 +9,14 @@ import java.net.*;
 import java.awt.image.BufferedImage;
 
 public class Animal{
-    private int Xpos, Ypos;
-    private BufferedImage image;
-    
+    private int Xpos, Ypos; 
     private final int height = 10;
     private final int width = 10;
     private final int row = (int)Math.round(Math.random()*3); //for 3 animals tmp
+    private boolean dead = false;
+    private URL catURL = getClass().getResource("graphics/canvas.png");//cat
+    private URL stateURL = catURL;
+    private Image stateIM = new ImageIcon(stateURL).getImage();
     
     public Animal(){}
     
@@ -23,29 +25,32 @@ public class Animal{
    
     //get y pos of the cell
     public int getY(){ return Ypos; }
+    
+    public void setXY(int x, int y){
+    	Xpos = x;
+    	Ypos = y;
+    }
 	
     //set x pos of the cell
     public void setX(int x){ Xpos = x; }
 	
     //set y pos of the cell
     public void setY(int y){ Ypos = y; }
-    /*  
-    //get object's current image
-    public BufferedImage getImage(){
-    return this.image;
+
+    public boolean isDead(){ return this.dead; }
+    
+    public void setDead(){ 
+    	URL bloodURL =  getClass().getResource("graphics/blood.png");//blood
+    	stateIM = new ImageIcon(bloodURL).getImage(); 
+    	this.dead = true; }
+    
+    public Image getIM() {
+    	stateIM = new ImageIcon(stateURL).getImage();
+    	return this.stateIM; 
     }
     
-    //set object's current image
-    public void setImage(String path, int col){
-    try{
-    this.image = ImageIO.read(new File(path));
-    }catch(IOException e){
-    System.out.println("Image did read\n");
-    }
-    //waiting on sprite sheet to generate params
-    this.image = this.image.getSubimage(col, this.row, width, height);
-	
-    }
-    */
+    public void setURL(){ 
+    URL bloodURL =  getClass().getResource("graphics/blood.png");//blood
+    stateURL = bloodURL; }
     
 }

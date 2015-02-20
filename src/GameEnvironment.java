@@ -55,9 +55,13 @@ public class GameEnvironment extends JFrame {
     private Image zooIM;
     private Image pooIM;
     private Image trashIM;
+    private Image netIM;
     boolean aBroom = false;
    	int nBroom = 10;
     Broom broom = new Broom();
+    int nNet = 10;
+    Net net = new Net();
+    boolean aNet = false;
     private boolean gameover = false;
     private boolean pause = false;
     private int animalType;
@@ -182,12 +186,15 @@ public class GameEnvironment extends JFrame {
 	    
 	    URL broomURL = getClass().getResource("graphics/broom.png");//zoo
 	    trashIM = new ImageIcon(broomURL).getImage();
+	    
+	    URL netURL = getClass().getResource("graphics/net.png");//zoo
+	    netIM = new ImageIcon(netURL).getImage();
 
 	} // icons
 	public void showIcons(Graphics g){
 	    if (gameover == false){
 		for (int i=0; i<numAnimals; i++){
-		    g.drawImage(animalIM, animalArray.get(i).getX(), animalArray.get(i).getY(), this);
+		    g.drawImage(animalArray.get(i).getIM(), animalArray.get(i).getX(), animalArray.get(i).getY(), this);
 		}
 		for (int i=0; i<numTrash; i++){
 			g.drawImage(pooIM, trashArray.get(i).getX(), trashArray.get(i).getY(), this);
@@ -207,6 +214,9 @@ public class GameEnvironment extends JFrame {
 		}
 		if (aBroom == true){
 			g.drawImage(trashIM, broom.getX(), broom.getY(), this);
+		}
+		if (aNet == true){
+			g.drawImage(netIM, net.getX(), net.getY(), this);
 		}
 		Toolkit.getDefaultToolkit().sync();
 	    }
@@ -231,7 +241,29 @@ public class GameEnvironment extends JFrame {
 		    }
 		}
 		
-		// check if broom crosses path with poo
+		// check if net crosses path with animal - clear animal
+		for(int i = 0; i < animalArray.size(); i++) {					
+		    if ((animalArray.get(i).getX() - pWidth/2) < net.getX() && (net.getX() < (animalArray.get(i).getX() + pWidth/2)) 
+			&& (net.getY() > animalArray.get(i).getY() - pHeight/2) && (net.getY() < animalArray.get(i).getY() + pHeight/2)){						
+				if (!animalArray.get(i).isDead()){
+					animalArray.get(i).setX(2000);
+					animalArray.get(i).setY(2000);
+					score++;
+					int n = train.getTA().size();
+					addNewTailAnimal(new Animal());
+					if (n==0){
+						train.getTA().get(n).setX(train.getX());
+						train.getTA().get(n).setY(train.getY());
+					}
+					else{
+						train.getTA().get(n).setX(train.getTA().get(n-1).getX());
+						train.getTA().get(n).setY(train.getTA().get(n-1).getY());
+					}
+				}
+			}
+		}
+		
+		// check if broom crosses path with poo - clear poo
 		for(int i = 0; i < trashArray.size(); i++) {					
 		    if ((trashArray.get(i).getX() - pWidth/2) < broom.getX() && (broom.getX() < (trashArray.get(i).getX() + pWidth/2)) 
 			&& (broom.getY() > trashArray.get(i).getY() - pHeight/2) && (broom.getY() < trashArray.get(i).getY() + pHeight/2)){						
@@ -240,7 +272,6 @@ public class GameEnvironment extends JFrame {
 				score++;
 			}
 		}
-		
 		
 		// checks if train crosses paths with poo
 		for(int i = 0; i < trashArray.size(); i++) {					
@@ -254,25 +285,14 @@ public class GameEnvironment extends JFrame {
 		for(int i = 0; i < animalArray.size(); i++) {					
 		    if ((animalArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (animalArray.get(i).getX() + pWidth/2)) 
 			&& (train.getY() > animalArray.get(i).getY() - pHeight/2) && (train.getY() < animalArray.get(i).getY() + pHeight/2)){						
-				int n = train.getTA().size();
-				addNewTailAnimal(new Animal());
-				if (n==0){
-					train.getTA().get(n).setX(train.getX());
-					train.getTA().get(n).setY(train.getY());
-					animalArray.get(i).setX(2000);
-					animalArray.get(i).setY(2000);
-				}
-				else{
-					train.getTA().get(n).setX(train.getTA().get(n-1).getX());
-					train.getTA().get(n).setY(train.getTA().get(n-1).getY());
-					animalArray.get(i).setX(2000);
-					animalArray.get(i).setY(2000);
-					
-				}	
+				animalArray.get(i).setURL();
+				animalArray.get(i).setDead();
+				//animalArray.get(i).getIM();
 		    } // endif
 		}
 		
-		if (numAnimals == total){
+		// if all animals are collected
+		if (numAnimals == total){ 
 			animalArray.clear();
 			trashArray.clear();
 			total = 0;
@@ -304,6 +324,8 @@ public class GameEnvironment extends JFrame {
 			train.move();
 			if (aBroom == true && nBroom >= 0)
 				broom.move();
+			if (aNet == true && nNet >= 0)
+				net.move();
 	    }
 	    repaint();
 	}
@@ -348,6 +370,12 @@ public class GameEnvironment extends JFrame {
 				aBroom = true;
 				nBroom--;
 				broom.setDirection(train);
+			}
+			if (key == KeyEvent.VK_C && nNet > 0){
+				net.setXY(train.getX(), train.getY());
+				aNet = true;
+				nNet--;
+				net.setDirection(train);
 			}
 			if (key == KeyEvent.VK_ESCAPE && pause == false){
 				GameMenu game = new GameMenu();
