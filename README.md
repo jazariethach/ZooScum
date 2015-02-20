@@ -16,11 +16,11 @@ The Game begins with a menu screen that has the following options: New Game, Ins
 
 ##New Game
 --------
-*The player can start a new game that begins at the first level by clicking the "New Game" button
+* The player can start a new game that begins at the first level by clicking the "New Game" button
 
 ##Instructions
 ------------
-*The "Instructions" button opens up a window with the premise and rules for the game
+* The "Instructions" button opens up a window with the premise and rules for the game
 
 ##Exit
 ----
@@ -31,18 +31,18 @@ To build the program properly, the user must be careful not to move the files ar
 
 
 ##Bugs
-*There is a bug correlating to the panel size of our window. While the user can stretch the frame to a larger size, the boarder that the train interacts with isn't visible and doesn't extend, so it can crash unexpectedly.
+* There is a bug correlating to the panel size of our window. While the user can stretch the frame to a larger size, the boarder that the train interacts with isn't visible and doesn't extend, so it can crash unexpectedly.
 
 *The game over splash screen doesn't pop up when the train crashes so there is no way to restart the game without completely exiting and reinitializing the game again.
 
 
 ##How to Play
-*Open the menu and start a new game
-*Use the 'up', 'down', 'right', and 'left' keys to control the train
-*Avoid running into poop or walls, results in game over
-*Cross paths with animals to pick them up and add them to your tail
-*Cross paths with the zoo to drop off any tail animals
-*Use the 'space bar' to throw brooms and sweep away the poop
-*Ues the 'esc' key to pull up the 'pause' and 'exit' menu buttons
+* Open the menu and start a new game
+* Use the 'up', 'down', 'right', and 'left' keys to control the train
+* Avoid running into poop or walls, results in game over
+* Cross paths with animals to pick them up and add them to your tail
+* Cross paths with the zoo to drop off any tail animals
+* Use the 'space bar' to throw brooms and sweep away the poop
+* Use the 'esc' key to pull up the 'pause' and 'exit' menu buttons
 
 
