@@ -147,17 +147,28 @@ public class GameEnvironment extends JFrame {
 	    timer.start();		
 	    startTime = System.currentTimeMillis();
 	}
+	
+    /**
+	* Method getTime             - calculates elapsed time of game
+    *        @return elapsedTime - number of seconds elapsed
+    */
 	private long getTime(){
     	stopTime = System.currentTimeMillis();
     	elapsedTime = stopTime - startTime;
     	return elapsedTime;
     }
+    
 	@Override
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);
 	    showScore(g);
 	    showIcons(g);
 	} // end paintComponent
+	
+	/**
+    * Method showScore  - paint text onto screen for score
+    * 		  @param g	- Graphics object to draw text on screen
+    */
 	public void showScore(Graphics g){
 		// Displays current time & score
 		g.setFont(new Font("Corsiva Hebrew", Font.PLAIN, 25));
@@ -171,6 +182,10 @@ public class GameEnvironment extends JFrame {
 		//String elapsed = "Time elapsed: " + getTime()/1000;
 		//g.drawString(elapsed, 0, 45);
 	}
+	
+	/**
+    * Method icons - load icon images from file
+    */
 	public void icons(){
 	    URL trainURL = getClass().getResource("graphics/tright.png");//train
 	    trainIM = new ImageIcon(trainURL).getImage();
@@ -191,6 +206,11 @@ public class GameEnvironment extends JFrame {
 	    netIM = new ImageIcon(netURL).getImage();
 
 	} // icons
+	
+	/**
+    * Method showIcons - paint image icons onto screen for animation
+    * 		  @param g	- Graphics object to draw images on screen
+    */
 	public void showIcons(Graphics g){
 	    if (gameover == false){
 		for (int i=0; i<numAnimals; i++){
@@ -221,7 +241,10 @@ public class GameEnvironment extends JFrame {
 		Toolkit.getDefaultToolkit().sync();
 	    }
 	} // showIcons
-		
+	
+	/**
+    * Method gameLogic - determines what to do as train moves around screen
+    */
 	void gameLogic(){//void gameLogic(int pauseDelay) throws InterruptedException {
 	    if(gameover == false && pause == false) {
 		// checks if train crosses paths with zoo and clears tailArray
@@ -401,10 +424,11 @@ public class GameEnvironment extends JFrame {
 		   JButton Save = new JButton "Save & Exit"*/
 		
 		JButton Exit = new JButton("Exit");
-		
-		
-			// Start GUI for game environment with menu
-			public void makeMenu() {
+	
+		/**
+         * Constructor makeMenu - initializes game panel with buttons across bottom
+         */		
+		public void makeMenu() {
 				Pause.addActionListener(this);
 				// Save.addActionListener(this);
 				Exit.addActionListener(this);
@@ -420,7 +444,9 @@ public class GameEnvironment extends JFrame {
 				animationFrame.setVisible(true);
         }
         
-        // Performs actions if buttons are pressed
+        /**
+         * Override actionPerformed - sets actions for when buttons are pressed
+         */
     	@Override
 		public void actionPerformed(ActionEvent buttonPress) {
 			if(buttonPress.getSource() == Exit) {
