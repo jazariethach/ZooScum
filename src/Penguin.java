@@ -12,8 +12,6 @@ public class Penguin extends Animal{
     private int Xpos, Ypos; 
     private final int height = 10;
     private final int width = 10;
-    private int movement = 2;
-    private int health = 2;
     private boolean dead = false;
     public URL pengURL = getClass().getResource("graphics/penguin.png");//cat
     private Image pengIM = new ImageIcon(pengURL).getImage();
@@ -23,51 +21,30 @@ public class Penguin extends Animal{
     public Penguin(){
     	super();
     }
-	
+	/*
+		Method getIM - returns image
+	*/
 	@Override
     public Image getIM() {
     	return this.stateIM; 
     }
     
+    /*
+    	Method setURL - set blood.png as current state image
+    */
     @Override
     public void setURL(){ 
     	URL bloodURL = getClass().getResource("graphics/blood.png");//blood
     	this.stateIM = new ImageIcon(bloodURL).getImage();
     }
     
+    /*
+    	Method setDead - set the status of animal to be "dead"
+    */
     @Override
     public void setDead(){ 
     	URL bloodURL =  getClass().getResource("graphics/blood.png");//blood
     	stateIM = new ImageIcon(bloodURL).getImage(); 
     	this.dead = true; 
-    }
-    
-    public void damage(int dmg){
-    	this.health = this.health - dmg;
-    	if (health >= 0){
-    		this.setDead();
-    	}
-    }
-    
-    public void step(){
-    	int random = (int)(Math.random()*4);
-    	switch (random){
-    		case 0: // move up
-    			if ((this.Ypos + movement) < maxY){
-    				this.Ypos += movement;
-    			}
-    		case 1: // move down
-    			if ((this.Ypos - movement) > 0){
-    				this.Ypos -= movement;
-    			}
-    		case 2: // move right
-    			if ((this.Xpos + movement) < maxX){
-    				this.Xpos += movement;
-    			}
-    		case 4: // move left
-    			if ((this.Xpos - movement) > 0){
-    				this.Xpos -= movement;
-    			}
-    	}
     }
 }
