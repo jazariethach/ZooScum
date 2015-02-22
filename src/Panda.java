@@ -27,7 +27,7 @@ public class Panda extends Animal{
     }
         // Constructor for panda class, sets x and y position
     public Panda(int x, int y){
-    	super(x, y);
+    	super(x, y, 1);
     }
 	
 	/*

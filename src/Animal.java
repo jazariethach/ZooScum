@@ -30,14 +30,20 @@ public class Animal{
     Image defaultIM;
     URL defaultURL = getClass().getResource("graphics/poo.png");
     private int movement = 2;
+    private int animalNum;
     int maxX = 1024;
     int maxY = 768;
   		
     public Animal(){}
 
-    public Animal(int x, int y){
+    public Animal(int x, int y, int aN){
     	this.Xpos = x;
     	this.Ypos = y;
+        this.animalNum = aN;
+    }
+
+    public int get_animalNum(){
+        return animalNum;
     }
 
 	public int getX() {

@@ -27,7 +27,7 @@ public class Giraffe extends Animal{
     }
      // Constructor for giraffe class, sets x and y position
     public Giraffe(int x, int y){
-    	super(x, y);
+    	super(x, y, 4);
     }
 	
 	// Method getIM() - returns image

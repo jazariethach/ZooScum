@@ -26,7 +26,7 @@ public class Penguin extends Animal{
     }
     // Constructor for penguin class, sets x and y position
     public Penguin(int x, int y){
-    	super(x, y);
+    	super(x, y, 2);
     }
     
 	/*

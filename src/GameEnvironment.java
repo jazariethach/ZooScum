@@ -311,8 +311,20 @@ public class GameEnvironment extends JFrame {
  						animalArray.get(i).setY(2000);
 						score++;
 						int n = train.getTA().size();
-						addNewTailAnimal(new Penguin()); // change animal type
-						if (n==0){
+						switch(animalArray.get(i).get_animalNum()){
+							case 1:
+								addNewTailAnimal(new Panda());
+								break;
+							case 2:
+								addNewTailAnimal(new Penguin());
+								break;
+							case 3:
+								addNewTailAnimal(new Koala());
+								break;
+							case 4:
+								addNewTailAnimal(new Giraffe());
+								break;
+						}						if (n==0){
 							train.getTA().get(n).setX(train.getX());
 							train.getTA().get(n).setY(train.getY());
 						}
@@ -333,7 +345,20 @@ public class GameEnvironment extends JFrame {
  						animalArray.get(i).setY(2000);
 						score++;
 						int n = train.getTA().size();
-						addNewTailAnimal(new Penguin()); // change animal type
+						switch(animalArray.get(i).get_animalNum()){
+							case 1:
+								addNewTailAnimal(new Panda());
+								break;
+							case 2:
+								addNewTailAnimal(new Penguin());
+								break;
+							case 3:
+								addNewTailAnimal(new Koala());
+								break;
+							case 4:
+								addNewTailAnimal(new Giraffe());
+								break;
+						}
 						if (n==0){
 							train.getTA().get(n).setX(train.getX());
 							train.getTA().get(n).setY(train.getY());

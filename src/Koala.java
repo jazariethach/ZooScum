@@ -27,7 +27,7 @@ public class Koala extends Animal{
     }
      // Constructor for koala class, sets x and y position
     public Koala(int x, int y){
-    	super(x, y);
+    	super(x, y, 3);
     }
 	
 		/*
