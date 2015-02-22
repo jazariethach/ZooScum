@@ -29,7 +29,7 @@ public class Animal{
     private boolean dead = false;
     Image defaultIM;
     URL defaultURL = getClass().getResource("graphics/poo.png");
-    private int movement = 2;
+    private int movement = 15;
     private int animalNum;
     int maxX = 1024;
     int maxY = 768;
@@ -118,23 +118,17 @@ public class Animal{
     
     public void step(){
 		int random = (int)(Math.random()*4);
-		switch (random){
-			case 0: // move up
-				if ((this.Ypos + movement) < maxY){
+		if ((this.Ypos + movement) < maxY && random == 1){
 					this.Ypos += movement;
-				}
-			case 1: // move down
-				if ((this.Ypos - movement) > 0){
+		}
+		else if ((this.Ypos + movement) < maxY && random == 2){
 					this.Ypos -= movement;
-				}
-			case 2: // move right
-				if ((this.Xpos + movement) < maxX){
+		}
+		else if ((this.Xpos + movement) < maxX && random == 3){
 					this.Xpos += movement;
-				}
-			case 4: // move left
-				if ((this.Xpos - movement) > 0){
+		}
+		else if ((this.Xpos + movement) < maxX && random == 4){
 					this.Xpos -= movement;
-				}
 		}
     }
 }

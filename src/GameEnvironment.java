@@ -407,6 +407,9 @@ public class GameEnvironment extends JFrame {
 	    if (gameover == false && pause == false) {
 			gameLogic();
 			train.move();
+			for (int i=0; i<numAnimals; i++){
+				animalArray.get(i).step();
+			}
 			if (aBroom == true && nBroom >= 0)
 				broom.move();
 			if (aNet == true && nNet >= 0)
