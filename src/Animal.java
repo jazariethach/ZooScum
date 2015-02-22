@@ -117,7 +117,7 @@ public class Animal{
     }
     
     public void step(){
-		int random = (int)(Math.random()*4);
+		int random = (int)Math.ceil(Math.random()*4);
 		if ((this.Ypos + movement) < maxY && random == 1){
 					this.Ypos += movement;
 		}
