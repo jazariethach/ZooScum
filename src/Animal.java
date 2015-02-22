@@ -121,13 +121,13 @@ public class Animal{
 		if ((this.Ypos + movement) < maxY && random == 1){
 					this.Ypos += movement;
 		}
-		else if ((this.Ypos + movement) < maxY && random == 2){
+		else if ((this.Ypos - movement) > 0 && random == 2){
 					this.Ypos -= movement;
 		}
 		else if ((this.Xpos + movement) < maxX && random == 3){
 					this.Xpos += movement;
 		}
-		else if ((this.Xpos + movement) < maxX && random == 4){
+		else if ((this.Xpos - movement) > 0 && random == 4){
 					this.Xpos -= movement;
 		}
     }
