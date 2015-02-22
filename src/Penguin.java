@@ -1,3 +1,5 @@
+package src;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,42 +11,46 @@ import java.net.*;
 import java.awt.image.BufferedImage;
 
 public class Penguin extends Animal{
-    private int Xpos, Ypos; 
-    private final int height = 10;
-    private final int width = 10;
-    private boolean dead = false;
-    public URL pengURL = getClass().getResource("graphics/penguin.png");//cat
-    private Image pengIM = new ImageIcon(pengURL).getImage();
-    Image stateIM = pengIM;
-    int maxX = 1000;
-    int maxY = 600;
+    private int movement = 2;
+    private int health = 2;
+    private URL rightURL = getClass().getResource("graphics/penguin_right.png");
+    private URL leftURL = getClass().getResource("graphics/penguin_left.png");
+    private URL upURL = getClass().getResource("graphics/penguin_right.png");
+    private URL downURL = getClass().getResource("graphics/penguin_left.png");
+    private URL redURL = getClass().getResource("graphics/blood.png");//blood
+    private Image pengIM = new ImageIcon(rightURL).getImage();
+    
+    // Empty constructor
     public Penguin(){
     	super();
     }
+    // Constructor for penguin class, sets x and y position
+    public Penguin(int x, int y){
+    	super(x, y);
+    }
+    
 	/*
 		Method getIM - returns image
 	*/
 	@Override
     public Image getIM() {
-    	return this.stateIM; 
+    	if (super.isDead()){
+    		this.pengIM = new ImageIcon(this.redURL).getImage(); 
+    	}
+    	else if (super.getLeft()){
+    		this.pengIM = new ImageIcon(this.leftURL).getImage();
+    	}
+    	else if (super.getUp()){
+    		this.pengIM = new ImageIcon(this.upURL).getImage();
+    	}
+    	else if (super.getDown()){
+    		this.pengIM = new ImageIcon(this.downURL).getImage();
+    	}
+    	else if (super.getRight()){
+    		this.pengIM = new ImageIcon(this.rightURL).getImage();
+    	}
+    	return this.pengIM;
     }
-    
-    /*
-    	Method setURL - set blood.png as current state image
-    */
-    @Override
-    public void setURL(){ 
-    	URL bloodURL = getClass().getResource("graphics/blood.png");//blood
-    	this.stateIM = new ImageIcon(bloodURL).getImage();
-    }
-    
-    /*
-    	Method setDead - set the status of animal to be "dead"
-    */
-    @Override
-    public void setDead(){ 
-    	URL bloodURL =  getClass().getResource("graphics/blood.png");//blood
-    	stateIM = new ImageIcon(bloodURL).getImage(); 
-    	this.dead = true; 
-    }
+
+  
 }

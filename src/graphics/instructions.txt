@@ -1,0 +1,9 @@
+
+Welcome to Zoo Wrangler!
+
+All the animals have just escaped from the zoo!! Your job is to go hop on the train and wrangle in all the wild animals while you still can. 
+Use the arrow keys (left, right, down, up) to guide the train over the animals to retrieve them and they will then be added on to the back of your train like a tail. Once the animals are collected, drive through the zoo to return them. 
+You can collect as many animals at a time as you like at a time before dropping them off back at the zoo. Returning many animals to the zoo at one time may earn you a bonus. However, as your tail of animals grows longer be careful not to run over your own tail of animals or into any walls, or game over. 
+All animals must be returned to the zoo (not just in the train) in the time allotted or points will not be rewarded, and you cannot move on to the next level. Extra time left over will result in bonus points. 
+
+Happy wrangling!!
