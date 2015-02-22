@@ -324,7 +324,8 @@ public class GameEnvironment extends JFrame {
 							case 4:
 								addNewTailAnimal(new Giraffe());
 								break;
-						}						if (n==0){
+						}
+						if (n==0){
 							train.getTA().get(n).setX(train.getX());
 							train.getTA().get(n).setY(train.getY());
 						}
