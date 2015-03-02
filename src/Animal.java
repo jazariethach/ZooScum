@@ -20,7 +20,7 @@ import java.awt.image.BufferedImage;
  * @author 	Josephine Vo
  * @version for CS48, Winter 2015, UCSB
  */
-public class Animal{
+abstract public class Animal{
     int Xpos, Ypos; 
     private boolean left = false;
     private boolean right = true;
@@ -116,18 +116,18 @@ public class Animal{
     	return this.defaultIM; 
     }
     
-    public void step(){
+    public void moveto(int x, int y){
 		int random = (int)Math.ceil(Math.random()*4);
-		if ((this.Ypos + movement) < maxY && random == 1){
+		if ((this.Ypos + movement) < maxY && random == 1){ // move up
 					this.Ypos += movement;
 		}
-		else if ((this.Ypos - movement) > 0 && random == 2){
+		else if ((this.Ypos - movement) > 0 && random == 2){ // move down
 					this.Ypos -= movement;
 		}
-		else if ((this.Xpos + movement) < maxX && random == 3){
+		else if ((this.Xpos + movement) < maxX && random == 3){ // move right
 					this.Xpos += movement;
 		}
-		else if ((this.Xpos - movement) > 0 && random == 4){
+		else if ((this.Xpos - movement) > 0 && random == 4){ // move left
 					this.Xpos -= movement;
 		}
     }

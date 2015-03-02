@@ -198,8 +198,6 @@ class MainEnvironment extends JFrame implements ActionListener {
         }
 	}// MenuPanel (JPanel)
 	
-	
-	
 	/**
 	 * Override actionPerformed - sets actions when menu buttons are pressed
 	 */

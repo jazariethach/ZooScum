@@ -389,8 +389,6 @@ public class GameEnvironment extends JFrame {
 					gameover = true;
 				} // endif
 			}
-				
-	
 		
 			// checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
 			if(train.getX() > maxX || train.getX() < 0 || train.getY() > maxY || train.getY() < 0) {
