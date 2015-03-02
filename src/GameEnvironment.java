@@ -70,7 +70,7 @@ public class GameEnvironment extends JFrame {
     Train 				train;			// train object for animal pickup
     Net					net;
     ArrayList<Animal> 	animalArray;	// array of animals on screen
-    ArrayList<Animal>   trashArray;     // array for trash on screen
+    ArrayList<Trash>   trashArray;     // array for trash on screen
     {
         gamePanel 		= new GamePanel();
         gameFrame 		= new JFrame();
@@ -103,7 +103,7 @@ public class GameEnvironment extends JFrame {
         train 			= new Train();
         net				= new Net();
         animalArray 	= new ArrayList<Animal>();
-        trashArray      = new ArrayList<Animal>();
+        trashArray      = new ArrayList<Trash>();
     }
     
 		
@@ -113,7 +113,6 @@ public class GameEnvironment extends JFrame {
     */
 
     private void addNewTrash() {
-    	Animal a = new Animal();
 		int Xpos = SHIFT*(int)Math.ceil(Math.random() * (maxX/SHIFT));
 		int Ypos = SHIFT*(int)Math.ceil(Math.random() * (maxY/SHIFT));
 		while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2)) 
@@ -121,9 +120,8 @@ public class GameEnvironment extends JFrame {
 			Xpos = SHIFT*(int)Math.ceil(Math.random() * (maxX/SHIFT));
 			Ypos = SHIFT*(int)Math.ceil(Math.random() * (maxY/SHIFT));
 		}
-		a.setX(Xpos);
-		a.setY(Ypos);
-		trashArray.add(a);
+		Trash t = new Trash(Xpos, Ypos);
+		trashArray.add(t);
     }
     /**
      * Method addNewBoardAnimal - adds Animal to animalArray and gives it an

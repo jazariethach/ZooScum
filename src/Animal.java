@@ -28,7 +28,7 @@ abstract public class Animal{
     private boolean down = false;
     private boolean dead = false;
     Image defaultIM;
-    URL defaultURL = getClass().getResource("graphics/poo.png");
+    URL defaultURL;
     private int movement = 15;
     private int animalNum;
     int maxX = 1024;
@@ -112,11 +112,11 @@ abstract public class Animal{
     }
     
     public Image getIM() {
-    	defaultIM = new ImageIcon(defaultURL).getImage();
+    	this.defaultIM = new ImageIcon(defaultURL).getImage();
     	return this.defaultIM; 
     }
     
-    public void moveto(int x, int y){
+    public void step(){
 		int random = (int)Math.ceil(Math.random()*4);
 		if ((this.Ypos + movement) < maxY && random == 1){ // move up
 					this.Ypos += movement;
