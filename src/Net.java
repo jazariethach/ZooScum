@@ -19,7 +19,7 @@ public class Net{
     private boolean right = false; // check if train is moving right
     private boolean up = false; // check if train is moving up
     private boolean down = false; // check if train is moving down 
-    private final int SHIFT = 40; //how much the image shifts
+    private int SHIFT = 40; //how much the image shifts
     
     /**
      *  sets x,y-coordinate position
@@ -30,19 +30,22 @@ public class Net{
     	Ypos = y;
     }
     
-    //get x pos of the cell
+     /**
+     * Method incShift - increments shift s train moves faster
+     */	
+	public void incShift(){
+		SHIFT+=2;
+	}
+    
     public int getX(){ return Xpos; }
-   
-    //get y pos of the cell
+
     public int getY(){ return Ypos; }
-	
-    //set x pos of the cell
+ 
     public void setX(int x){ Xpos = x; }
 	
-    //set y pos of the cell
     public void setY(int y){ Ypos = y; }
-    
-    // set direction of the broom
+
+
     public void setDirection(Train train){
     	if (train.getLeft()){
     		this.left = true;
@@ -70,7 +73,7 @@ public class Net{
     	}
     }
     
-    // move net
+   
     public void move(){
     	if (left){ this.setX(this.getX() - SHIFT); }
 		if (right){ this.setX(this.getX() + SHIFT); }

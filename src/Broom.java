@@ -21,8 +21,7 @@ import java.awt.image.BufferedImage;
  * @version for CS48, Winter 2015, UCSB
  */
 public class Broom {
-    private final int SHIFT = 40; // speed of broom movement
-    
+    private int SHIFT = 40; // speed of broom movement
     private int       Xpos;       // x-coordinate position
     private int       Ypos;       // y-coordinate position
     private boolean   left;       // check for left movement
@@ -36,6 +35,12 @@ public class Broom {
         down  = false;
     }
     
+    /**
+     * Method incShift - increments shift s train moves faster
+     */	
+	public void incShift(){
+		SHIFT+=2;
+	}
     /**
      * Method setXY  - sets x & y coordinates of broom
      *       @param - new x & y coordinates to set

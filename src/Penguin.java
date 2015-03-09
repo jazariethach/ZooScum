@@ -11,7 +11,7 @@ import java.net.*;
 import java.awt.image.BufferedImage;
 
 public class Penguin extends Animal{
-    private int movement = 2;
+    private int movement = 0;
     private int health = 2;
     private URL rightURL = getClass().getResource("graphics/penguin_right.png");
     private URL leftURL = getClass().getResource("graphics/penguin_left.png");
@@ -51,6 +51,4 @@ public class Penguin extends Animal{
     	}
     	return this.pengIM;
     }
-
-  
 }

@@ -11,9 +11,7 @@ import java.net.*;
 import java.awt.image.BufferedImage;
 
 public class Panda extends Animal{
-    private int movement = 2;
-    private int health = 2;
-    private int attack; // Override attack
+    private int movement = 5;
     private URL rightURL = getClass().getResource("graphics/panda_right.png");
     private URL leftURL = getClass().getResource("graphics/panda_left.png");
     private URL upURL = getClass().getResource("graphics/panda_right.png");
@@ -52,11 +50,5 @@ public class Panda extends Animal{
     	}
     	return this.pandaIM;
     }
-    
-    public void damage(int dmg){
-    	this.health = this.health - dmg;
-    	if (health >= 0){
-    		this.setDead();
-    	}
-    }
+
 }

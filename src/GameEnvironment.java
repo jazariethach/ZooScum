@@ -43,8 +43,10 @@ public class GameEnvironment extends JFrame {
     private long 		elapsedTime;	// elapsed playing time
     private int 		maxX;			// max horizontal window bounds
     private int 		maxY;			// max vertical window bounds
+    private int			maxX2;
+    private int			maxY2;
     private int 		numAnimals;		// starting number of escaped animals
-    private int			numTypes;
+    private int			numTypes;		// number of different animals
     private int 		numTrash;		// starting number of trash
     private int 		nNet;			// number of nets available
     private int         nBroom;         // number of brooms available
@@ -56,10 +58,11 @@ public class GameEnvironment extends JFrame {
     private int 		zooY;           // coordinates of zoo image
     private int 		score;			// counts number of points earned
     private int 		total;			// counts number of points earned
+    private int			level;
     private boolean 	gameover;		// check for when game ends
     private boolean 	pause;          // check for when game is paused
     private boolean     aBroom;         // check for brooms available
-    private boolean		aNet;
+    private boolean		aNet;			
     private Image       backgroundIM;   // image icon for background image
     private Image       trainIM;        // image icon for train image
     private Image       animalIM;       // image icon for animal image
@@ -84,10 +87,12 @@ public class GameEnvironment extends JFrame {
         pauseStartTime  = 0;
         elapsedTime		= 0;
         maxX 			= 1024;
-        maxY 			= 768;
+        maxY 			= 730;
+        maxX2			= maxX-100;
+        maxY2			= maxY-60;
         numAnimals 		= 3;
         numTrash        = 3;
-        numTypes		= 4;
+        numTypes		= 6;
         nBroom          = 10;
         nNet			= 100;
         pWidth          = 40;
@@ -98,6 +103,7 @@ public class GameEnvironment extends JFrame {
         zooY            = 100;
         score 			= 0;
         total           = 0;
+        level			= 1;
         gameover 		= false;
         aBroom          = false;
         broom           = new Broom();
@@ -113,12 +119,12 @@ public class GameEnvironment extends JFrame {
      * 						initial position on the board
      */
     private void addNewTrash() {
-        int Xpos = SHIFT*(int)Math.ceil(Math.random() * (maxX/SHIFT));
-        int Ypos = SHIFT*(int)Math.ceil(Math.random() * (maxY/SHIFT));
+        int Xpos = SHIFT*(int)Math.ceil(Math.random() * (maxX2/SHIFT));
+        int Ypos = SHIFT*(int)Math.ceil(Math.random() * (maxY2/SHIFT));
         while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2))
               && (Ypos > zooY - zHeight/2) && (Ypos < zooY + zHeight/2)){
-            Xpos = SHIFT*(int)Math.ceil(Math.random() * (maxX/SHIFT));
-            Ypos = SHIFT*(int)Math.ceil(Math.random() * (maxY/SHIFT));
+            Xpos = SHIFT*(int)Math.ceil(Math.random() * (maxX2/SHIFT));
+            Ypos = SHIFT*(int)Math.ceil(Math.random() * (maxY2/SHIFT));
         }
         Trash t = new Trash(Xpos, Ypos);
         trashArray.add(t);
@@ -128,16 +134,22 @@ public class GameEnvironment extends JFrame {
      * 						 	  initial position on the board
      */
     private void addNewBoardAnimal() {
+    	if (level < 6){
+    		numTypes = level;
+    	}
+    	else{
+    		numTypes = 6;
+    	}
         int randomize = (int)Math.ceil(Math.random() * numTypes); // determines animal type
-            int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT);
-            int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT);
+		int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX2/SHIFT);
+		int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY2/SHIFT);
         while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2))
               && (Ypos > zooY - zHeight/2) && (Ypos < zooY + zHeight/2)){
-            if(Xpos > maxX -35){
-               Xpos = (SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT))%(maxX -35);
+            if(Xpos > maxX2 -35){
+               Xpos = (SHIFT*(int)Math.ceil(Math.random() * maxX2/SHIFT))%(maxX -35);
              }
-            if(Ypos > maxY -80)
-                Ypos = (SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT)) % (maxY -80);
+            if(Ypos > maxY2 -80)
+                Ypos = (SHIFT*(int)Math.ceil(Math.random() * maxY2/SHIFT)) % (maxY -80);
         }
         switch (randomize){
             case 1:
@@ -156,6 +168,12 @@ public class GameEnvironment extends JFrame {
                 Panda pa = new Panda(Xpos, Ypos);
                 animalArray.add(pa);
                 break;
+            case 5:
+            	Fox f = new Fox(Xpos, Ypos);
+            	animalArray.add(f);
+            case 6:
+            	Tiger t = new Tiger(Xpos, Ypos);
+            	animalArray.add(t);
             default:
                 break;
         }
@@ -238,9 +256,9 @@ public class GameEnvironment extends JFrame {
             String displayBroom = "Brooms: " + nBroom;
             g.drawString(displayBroom, 870, 60);
             String displayIns = "Press SPACE to activate broom!";
-            g.drawString(displayIns, 400, 700);
+            g.drawString(displayIns, 300, 690);
             String displayEsc = "Press C to activate net!";
-            g.drawString(displayEsc, 400, 720);
+            g.drawString(displayEsc, 300, 710);
         }
         
         /**
@@ -314,9 +332,12 @@ public class GameEnvironment extends JFrame {
                     int n = train.getTA().size();
                     train.getTA().clear();
                     train.incShift();
+                    net.incShift();
+                    broom.incShift();
                     total += n;
                     score += n;
-                    
+                    level ++;
+                    train.setDown();
                     // if all animals are collected
                     if (numAnimals == total){
                         pause = true;
@@ -432,7 +453,7 @@ public class GameEnvironment extends JFrame {
                 }
                 
                 // checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
-                if(train.getX() > (maxX-15) || train.getX() < 0 || train.getY() > (maxY-90) || train.getY() < 0) {
+                if(train.getX() > (maxX) || train.getX() < 0 || train.getY() > (maxY) || train.getY() < 0) {
                     gameover = true;
                 }
             }

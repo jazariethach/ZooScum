@@ -11,13 +11,11 @@ import java.net.*;
 import java.awt.image.BufferedImage;
 
 public class Koala extends Animal{
-    private int movement = 2;
-    private int health = 2;
-    private int attack = 2;
+    private int movement = 4;
     private URL rightURL = getClass().getResource("graphics/koala_right.png");
     private URL leftURL = getClass().getResource("graphics/koala_left.png");
-    private URL upURL = getClass().getResource("graphics/koala_right.png");
-    private URL downURL = getClass().getResource("graphics/koala_left.png");
+    private URL upURL = getClass().getResource("graphics/koala_up.png");
+    private URL downURL = getClass().getResource("graphics/koala_down.png");
     private URL redURL = getClass().getResource("graphics/blood.png");//blood
     private Image koalaIM = new ImageIcon(rightURL).getImage();
     Image stateIM = koalaIM;
@@ -52,13 +50,7 @@ public class Koala extends Animal{
     	}
     	return this.koalaIM;
     }
-   /*
-    	Method setURL - set blood.png as current state image
-    */
-    public void setURL(){ 
-    	URL bloodURL = getClass().getResource("blood.png");//blood
-    	this.stateIM = new ImageIcon(bloodURL).getImage();
-    }
+
 
 
 }
