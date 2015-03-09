@@ -134,7 +134,7 @@ public class GameEnvironment extends JFrame {
      * 						 	  initial position on the board
      */
     private void addNewBoardAnimal() {
-    	if (level < 6){
+    	if (level <= 6){
     		numTypes = level;
     	}
     	else{
@@ -260,6 +260,8 @@ public class GameEnvironment extends JFrame {
             g.drawString(displayHealth, 870, 85);
             String displayNet = "Nets: " + nNet;
             g.drawString(displayNet, 870, 110);
+            String displayLevel = "Levels: " + level;
+            g.drawString(displayLevel, 300, 110);
             if (level < 3){
 				String displayIns = "Press SPACE to activate broom!";
 				g.drawString(displayIns, 300, 690);

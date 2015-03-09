@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 
 public class Giraffe extends Animal{
     private int Xpos, Ypos; 
-    private int movement = 3;
+    private int movement = 10;
     private URL rightURL = getClass().getResource("graphics/giraffe_right.png");
     private URL leftURL = getClass().getResource("graphics/giraffe_left.png");
     private URL upURL = getClass().getResource("graphics/giraffe_up.png");
@@ -52,18 +52,9 @@ public class Giraffe extends Animal{
     
   	@Override
   	public void step(){
-  		int random = (int)Math.ceil(Math.random()*4);
+  		int random = (int)Math.ceil(Math.random()*2);
 		if ((this.Ypos + movement) < (maxY-80) && random == 1){ // move up
 					this.Ypos += movement;
-		}
-		else if ((this.Ypos - movement) > 0 && random == 2){ // move down
-					this.Ypos -= movement;
-		}
-		else if ((this.Xpos + movement) < (maxX-35) && random == 3){ // move right
-					this.Xpos += movement;
-		}
-		else if ((this.Xpos - movement) > 0 && random == 4){ // move left
-					this.Xpos -= movement;
 		}
   	}
 

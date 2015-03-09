@@ -51,6 +51,12 @@ public class Koala extends Animal{
     	return this.koalaIM;
     }
 
-
+	@Override
+  	public void step(){
+  		int random = (int)Math.ceil(Math.random()*3);
+		if ((this.Ypos + movement) < (maxY-80) && random == 1){ // move up
+					this.Ypos += movement;
+		}
+  	}
 
 }

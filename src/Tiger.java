@@ -50,18 +50,15 @@ public class Tiger extends Animal{
     	}
     	return this.tigerIM;
     }
-
+    
 	@Override
   	public void step(){
-  		int random = (int)Math.ceil(Math.random()*4);
+  		int random = (int)Math.ceil(Math.random()*5);
 		if ((this.Ypos + movement) < (maxY-80) && random == 1){ // move up
 					this.Ypos += movement;
 		}
 		else if ((this.Ypos - movement) > 0 && random == 2){ // move down
 					this.Ypos -= movement;
-		}
-		else if ((this.Xpos + movement) < (maxX-35) && random == 3){ // move right
-					this.Xpos += movement;
 		}
 		else if ((this.Xpos - movement) > 0 && random == 4){ // move left
 					this.Xpos -= movement;
