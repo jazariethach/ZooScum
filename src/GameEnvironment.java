@@ -31,11 +31,7 @@ public class GameEnvironment extends JFrame {
     private final int	SHIFT = 15;		// for speed of train movement
     
     GamePanel 			gamePanel;		// main panel for game animation
-    PausePanel          pausePanel;
-    NextLevelPanel      nextLevelPanel;
-    GameOverPanel       gameOverPanel;
     JFrame 				gameFrame;		// main frame for game panels
-    JLayeredPane        splashPane;
     JPanel				buttonsPanel;	// panel for in-game buttons
     JButton				Pause;			// button to pause game
     JButton				Exit;			// button to exit game
@@ -64,6 +60,7 @@ public class GameEnvironment extends JFrame {
     private boolean 	pause;          // check for when game is paused
     private boolean     aBroom;         // check for brooms available
     private boolean		aNet;
+    private Image       backgroundIM;   // image icon for background image
     private Image       trainIM;        // image icon for train image
     private Image       animalIM;       // image icon for animal image
     private Image       zooIM;          // image icon for zoo image
@@ -77,11 +74,7 @@ public class GameEnvironment extends JFrame {
     ArrayList<Trash>   trashArray;     // array for trash on screen
     {
         gamePanel 		= new GamePanel();
-        pausePanel 		= new PausePanel();
-        nextLevelPanel 	= new NextLevelPanel();
-        gameOverPanel 	= new GameOverPanel();
         gameFrame 		= new JFrame();
-        splashPane      = new JLayeredPane();
         buttonsPanel 	= new JPanel(new BorderLayout());
         Pause 			= new JButton("Pause");
         Exit 			= new JButton("Exit");
@@ -101,8 +94,8 @@ public class GameEnvironment extends JFrame {
         pHeight         = 40;
         zWidth          = 75;
         zHeight         = 75;
-        zooX            = 75;
-        zooY            = 20;
+        zooX            = 150;
+        zooY            = 100;
         score 			= 0;
         total           = 0;
         gameover 		= false;
@@ -136,12 +129,15 @@ public class GameEnvironment extends JFrame {
      */
     private void addNewBoardAnimal() {
         int randomize = (int)Math.ceil(Math.random() * numTypes); // determines animal type
-        int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT);
-        int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT);
+            int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT);
+            int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT);
         while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2))
               && (Ypos > zooY - zHeight/2) && (Ypos < zooY + zHeight/2)){
-            Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT);
-            Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT);
+            if(Xpos > maxX -35){
+               Xpos = (SHIFT*(int)Math.ceil(Math.random() * maxX/SHIFT))%(maxX -35);
+             }
+            if(Ypos > maxY -80)
+                Ypos = (SHIFT*(int)Math.ceil(Math.random() * maxY/SHIFT)) % (maxY -80);
         }
         switch (randomize){
             case 1:
@@ -183,7 +179,6 @@ public class GameEnvironment extends JFrame {
         for(int i = 0; i < numTrash; i++) {
             addNewTrash();
         }
-        gameFrame.setFocusable(true);
         gameFrame.setContentPane(gamePanel);
         gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         gameFrame.setMinimumSize(new Dimension(maxX, maxY));
@@ -201,58 +196,21 @@ public class GameEnvironment extends JFrame {
      */
     class GamePanel extends JPanel implements ActionListener {
         public GamePanel(){
-            //setLayout(splashPanels());
-            splashPane.setLayout(new LayeredLayout(splashPane));
-            splashPane.setPreferredSize(new Dimension(400, 400));
-            splashPane.setMinimumSize(new Dimension(400, 400));
-            splashPane.setBackground(Color.GREEN);
-            // splashPane.add(this, JLayeredPane.DEFAULT_LAYER, 0);
-            // //splashPane.add(pausePanel, JLayeredPane.POPUP_LAYER, 0);
-            // //splashPane.add(nextLevelPanel, JLayeredPane.POPUP_LAYER, 1);
-            // //splashPane.add(gameOverPanel, JLayeredPane.POPUP_LAYER, 2);
-            splashPane.setVisible(true);
-
-            setPreferredSize(new Dimension(maxX, maxY));
-            add(splashPane, BorderLayout.CENTER);
-            
             // TODO check size of panel ish
+            setPreferredSize(new Dimension(maxX, maxY));
             setMaximumSize(new Dimension(maxX, maxY));
             addKeyListener(new KeyHandler());
-            http://www.google.com/imgres?imgurl=http://it.dss.ucdavis.edu/training/oracle-java-updates/javaunc.png&imgrefurl=http://it.dss.ucdavis.edu/training/oracle-java-updates&h=233&w=455&tbnid=FcN3vHCWXrZNXM:&zoom=1&docid=MPajXrkmueiSZM&ei=mPX8VM75BdPmoASi14DwDw&tbm=isch&client=safari&ved=0CB0QMygBMAE
             icons();
             timer = new Timer(DELAY, this);
             timer.start();
             startTime = System.nanoTime() / 1000000000;
+            pack();
             setVisible(true);
         }// GamePanel
         
-        private void splashPanels() {
-            // add panel components to layered frame
-            splashPane.setLayout(new LayeredLayout(splashPane));
-            splashPane.setPreferredSize(new Dimension(400, 400));
-            splashPane.setMinimumSize(new Dimension(400, 400));
-            splashPane.setOpaque(true);
-            splashPane.setBackground(Color.GREEN);
-            splashPane.add(this, JLayeredPane.DEFAULT_LAYER, 0);
-            splashPane.add(pausePanel, JLayeredPane.POPUP_LAYER, 0);
-            splashPane.add(nextLevelPanel, JLayeredPane.POPUP_LAYER, 1);
-            splashPane.add(gameOverPanel, JLayeredPane.POPUP_LAYER, 2);
-            splashPane.setVisible(true);
-            
-            /*
-            GroupLayout gameLayout = new GroupLayout(this);
-            gameLayout.setAutoCreateGaps(true);
-            gameLayout.setAutoCreateContainerGaps(true);
-            gameLayout.setHorizontalGroup(gameLayout.createSequentialGroup().addComponent(splashPane));
-            gameLayout.setVerticalGroup(gameLayout.createSequentialGroup().addComponent(splashPane));
-            
-            return gameLayout;
-             */
-        }
-        
         /**
-         * Method getTime             - calculates elapsed time of game
-         *        @return elapsedTime - number of seconds elapsed
+         * Method getTime - calculates elapsed time of game
+         * @return elapsedTime - number of seconds elapsed
          */
         private long getTime(){
             stopTime = System.nanoTime() / 1000000000;
@@ -263,8 +221,8 @@ public class GameEnvironment extends JFrame {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            showScore(g);
             showIcons(g);
+            showScore(g);
         } // end paintComponent
         
         /**
@@ -289,10 +247,13 @@ public class GameEnvironment extends JFrame {
          * Method icons - load icon images from file
          */
         public void icons(){
+            URL backgroundURL = getClass().getResource("graphics/background.jpg");//background
+            backgroundIM = new ImageIcon(backgroundURL).getImage();
+
             URL trainURL = getClass().getResource("graphics/train_right.png");//train
             trainIM = new ImageIcon(trainURL).getImage();
             
-            URL zooURL = getClass().getResource("graphics/pokeCenter.jpg");//zoo
+            URL zooURL = getClass().getResource("graphics/zoo.png");//zoo
             zooIM = new ImageIcon(zooURL).getImage();
             
             URL pooURL = getClass().getResource("graphics/poo.jpg");//zoo
@@ -312,6 +273,9 @@ public class GameEnvironment extends JFrame {
          */
         public void showIcons(Graphics g){
             if (gameover == false){
+                
+                g.drawImage(backgroundIM, -maxX/2, -maxY/2, this);
+
                 for (int i=0; i<numAnimals; i++){
                     g.drawImage(animalArray.get(i).getIM(), animalArray.get(i).getX(), animalArray.get(i).getY(), this);
                 }
@@ -355,9 +319,8 @@ public class GameEnvironment extends JFrame {
                     
                     // if all animals are collected
                     if (numAnimals == total){
-                        //pause = true;
-                        nextLevelPanel.setVisible(true);
-                        splashPane.moveToFront(nextLevelPanel);
+                        pause = true;
+                        nextLevel();
 
                         animalArray.clear();
                         trashArray.clear();
@@ -469,20 +432,109 @@ public class GameEnvironment extends JFrame {
                 }
                 
                 // checks if train goes beyond screen boundaries & stops gameif(train.getX() > maxGridX || train.getX() < 0 ||
-                if(train.getX() > maxX || train.getX() < 0 || train.getY() > maxY || train.getY() < 0) {
+                if(train.getX() > (maxX-15) || train.getX() < 0 || train.getY() > (maxY-90) || train.getY() < 0) {
                     gameover = true;
                 }
             }
             if(gameover == true) {
                 timer.stop();
-                gameOverPanel.setVisible(true);
-                splashPane.moveToFront(gameOverPanel);
-            }
-            if(pause == true){
-                splashPanels();
+                gameOver();
             }
         } // end gameLogic
         
+        private void gameOver() {
+            String[] choices = {"Exit", "New Game", "Main Menu"};
+            ImageIcon pooIcon = new ImageIcon(getClass().getResource("graphics/poo.jpg"));
+            
+            int choice = JOptionPane.showOptionDialog(null,
+                                                      "Gameover! Play again?",
+                                                      "GAMEOVER",
+                                                      JOptionPane.YES_NO_OPTION,
+                                                      JOptionPane.PLAIN_MESSAGE,
+                                                      pooIcon,
+                                                      choices,
+                                                      choices[1]);
+            switch(choice) {
+                case 0 :
+                    System.exit(0);
+                case 1 :
+                    gameFrame.dispose();
+                    GameEnvironment gameEnv = new GameEnvironment();
+                    break;
+                case 2 :
+                    gameFrame.dispose();
+                    MainEnvironment mainEnv = new MainEnvironment();
+                    break;
+            }
+        }
+
+        private void pauseGame() {
+            String[] choices = {"Exit", "Resume Game", "Main Menu"};
+            ImageIcon pauseIcon = new ImageIcon(getClass().getResource("graphics/paws.png"));
+            
+            
+            int choice = JOptionPane.showOptionDialog(null,
+                                                      "Continue playing?",
+                                                      "GAME PAUSED",
+                                                      JOptionPane.YES_NO_OPTION,
+                                                      JOptionPane.PLAIN_MESSAGE,
+                                                      pauseIcon,
+                                                      choices,
+                                                      choices[1]);
+            switch(choice) {
+                case 0 :
+                    gameover = true;
+                    timer.stop();
+                    System.exit(0);
+                case 1 :
+                    pausedTime += (System.nanoTime() / 1000000000 - pauseStartTime);
+                    pause = false;
+                    break;
+                case 2 :
+                    gameover = true;
+                    timer.stop();
+                    gameFrame.dispose();
+                    MainEnvironment mainEnv = new MainEnvironment();
+                    break;
+            }
+        }
+
+        private void nextLevel() {
+            String[] choices = {"Exit", "Next Level", "New Game", "Main Menu"};
+            ImageIcon nextLevelIcon = new ImageIcon(getClass().getResource("graphics/cagedElephant.png"));
+
+            int choice = JOptionPane.showOptionDialog(null,
+                                                      "Yay you wrangled all those wild animals!\nBut there's more!",
+                                                      "CONGRATULATIONS",
+                                                      JOptionPane.YES_NO_OPTION,
+                                                      JOptionPane.PLAIN_MESSAGE,
+                                                      nextLevelIcon,
+                                                      choices,
+                                                      choices[1]);
+            switch(choice) {
+                case 0 :
+                    gameover = true;
+                    timer.stop();
+                    System.exit(0);
+                case 1 :
+                    pausedTime += (System.nanoTime() / 1000000000 - pauseStartTime);
+                    pause = false;
+                    break;
+                case 2 :
+                    gameover = true;
+                    timer.stop();
+                    gameFrame.dispose();
+                    GameEnvironment gameEnv = new GameEnvironment();
+                    break;
+                case 3 :
+                    gameover = true;
+                    timer.stop();
+                    gameFrame.dispose();
+                    MainEnvironment mainEnv = new MainEnvironment();
+                    break;
+            }
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
             if (gameover == false && pause == false) {
@@ -496,10 +548,6 @@ public class GameEnvironment extends JFrame {
                 if (aNet == true && nNet >= 0)
                     net.move();
             }
-            else if(pause == true) {
-                pausePanel.setVisible(true);
-                splashPane.moveToFront(pausePanel);
-            }
             repaint();
         }
         /**
@@ -510,7 +558,7 @@ public class GameEnvironment extends JFrame {
             @Override
             public void keyPressed(KeyEvent e){
                 int key = e.getKeyCode();
-                if(pause == false){
+                if(pause == false && gameover == false){
                     if((key == KeyEvent.VK_LEFT) && (!train.getRight())){
                         URL trainURL = getClass().getResource("graphics/train_left.png");
                         trainIM = new ImageIcon(trainURL).getImage();
@@ -543,68 +591,20 @@ public class GameEnvironment extends JFrame {
                         nNet--;
                         net.setDirection(train);
                     }
-                }
-                if (key == KeyEvent.VK_ESCAPE){
-                    if(pause == true)
-                        pause = false;
-                    else{
+                
+                    if (key == KeyEvent.VK_ESCAPE && pause == false){
                         pause = true;
+                        //pausePanel.setVisible(true);
+                        //splashPane.moveToFront(pausePanel);
+                        pauseGame();
                     }
-                    if(pause == true){
-                        pausePanel.setVisible(true);
-                        splashPane.moveToFront(pausePanel);
-                    }
+                }
+                if (key == KeyEvent.VK_ESCAPE && pause == true) {
+                    pause = false;
                 }
             } // keyPressed
         } // KeyHandler
-    } // end GamePanel
-    
-    /**
-     * Class GameMenu - displays in-game menu with options to pause or exit game
-     */
-    class GameMenu implements ActionListener {
-        
-        /**
-         * Constructor GameMenu - initializes game panel with buttons across bottom
-         */
-        public GameMenu() {
-            Pause.addActionListener(this);
-            Pause.setBackground(Color.GREEN);
-            Pause.setOpaque(false);
-            Exit.addActionListener(this);
-            Exit.setBackground(Color.GREEN);
-            Exit.setOpaque(false);
-            
-            gameFrame.getContentPane().add(BorderLayout.SOUTH, buttonsPanel);
-            buttonsPanel.add(BorderLayout.EAST, Pause);
-            buttonsPanel.add(BorderLayout.WEST, Exit);
-            buttonsPanel.setOpaque(false);
-            gameFrame.setVisible(true);
-        }// GameMenu
-        
-        /**
-         * Override actionPerformed - sets actions for when buttons are pressed
-         */
-        @Override
-        public void actionPerformed(ActionEvent buttonPress) {
-            if (buttonPress.getSource() == Exit) {
-                System.exit(0);
-            }
-            // TODO pull up dialogue for user options
-            if (buttonPress.getSource() == Pause) {
-                if (pause == false) {
-                    pause = true;
-                    pauseStartTime = System.nanoTime() / 1000000000;
-                    pausePanel.setVisible(true);
-                    splashPane.moveToFront(pausePanel);
-                } else {
-                    pause = false;
-                    pausedTime += (System.nanoTime() / 1000000000 - pauseStartTime);
-                }
-            }
-        }// actionPerformed
-    }// GameMenu (ActionListener)
-    
+    } // end GamePanel    
     
     // Initialize program to display main menu on screen
     public static void main(String [] args) {

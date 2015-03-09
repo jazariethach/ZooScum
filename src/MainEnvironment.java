@@ -67,14 +67,13 @@ class MainEnvironment extends JFrame implements ActionListener {
     // Initialize program to display main menu on screen
     public static void main(String [] args) {
        	MainEnvironment mainMenu = new MainEnvironment();
-        mainMenu.DisplayMenu();
     }// main
     
     
     /**
      * Method DisplayMenu - sets up frame, pane and panels to display menu options
      */
-    public void DisplayMenu() {
+    public MainEnvironment() {
         
         // init buttons sizes, listeners, backgrounds
         Play.setPreferredSize(new Dimension(100, 50));
@@ -204,7 +203,7 @@ class MainEnvironment extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         if(event.getSource() == Play) {
-            dispose();
+            menuFrame.setVisible(false);
             GameEnvironment gameEnv = new GameEnvironment();
         }
         if(event.getSource() == Instructions) {
