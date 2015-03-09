@@ -178,6 +178,7 @@ public class GameEnvironment extends JFrame {
                 break;
         }
     }
+    
 
     /**
      Method addNewTailAnimal adds Animal to ArrayList
@@ -255,10 +256,16 @@ public class GameEnvironment extends JFrame {
             g.drawString(displayScore, 870, 35);
             String displayBroom = "Brooms: " + nBroom;
             g.drawString(displayBroom, 870, 60);
-            String displayIns = "Press SPACE to activate broom!";
-            g.drawString(displayIns, 300, 690);
-            String displayEsc = "Press C to activate net!";
-            g.drawString(displayEsc, 300, 710);
+            String displayHealth = "Health: " + train.getHealth();
+            g.drawString(displayHealth, 870, 85);
+            String displayNet = "Nets: " + nNet;
+            g.drawString(displayNet, 870, 110);
+            if (level < 3){
+				String displayIns = "Press SPACE to activate broom!";
+				g.drawString(displayIns, 300, 690);
+				String displayEsc = "Press C to activate net!";
+				g.drawString(displayEsc, 300, 710);
+			}
         }
         
         /**
@@ -338,8 +345,8 @@ public class GameEnvironment extends JFrame {
                     score += n;
                     // if all animals are collected
                     if (numAnimals == total){
-                        pause = true;
-                        nextLevel();
+                        //pause = true;
+                        //nextLevel();
 						level ++;
                         animalArray.clear();
                         trashArray.clear();
@@ -384,6 +391,12 @@ public class GameEnvironment extends JFrame {
                                 case 4:
                                     addNewTailAnimal(new Giraffe());
                                     break;
+                                case 5:
+									addNewTailAnimal(new Fox());
+									break;
+								case 6:
+									addNewTailAnimal(new Tiger());
+									break;
                             }
                             if (n==0){
                                 train.getTA().get(n).setX(train.getX());
@@ -419,6 +432,12 @@ public class GameEnvironment extends JFrame {
                                 case 4:
                                     addNewTailAnimal(new Giraffe());
                                     break;
+                                case 5:
+									addNewTailAnimal(new Fox());
+									break;
+								case 6:
+									addNewTailAnimal(new Tiger());
+									break;
                             }
                             if (n==0){
                                 train.getTA().get(n).setX(train.getX());
@@ -446,7 +465,10 @@ public class GameEnvironment extends JFrame {
                 for(int i = 0; i < trashArray.size(); i++) {
                     if ((trashArray.get(i).getX() - pWidth/2) < train.getX() && (train.getX() < (trashArray.get(i).getX() + pWidth/2))
                         && (train.getY() > trashArray.get(i).getY() - pHeight/2) && (train.getY() < trashArray.get(i).getY() + pHeight/2)){
-                        gameover = true;
+                        train.decHealth();
+                        if (train.getHealth() == 0){
+                        	gameover = true;
+                        }
                     } // endif
                 }
                 

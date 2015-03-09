@@ -16,7 +16,7 @@ public class Train{
     private boolean right = true;
     private boolean up = false;
     private boolean down = false;
-	
+	private int health = 5;
     int Xpos, Ypos;
     private int SHIFT = 15;	
    	private ArrayList<Animal> tailArray = new ArrayList<Animal>(); // tail of Train
@@ -40,6 +40,14 @@ public class Train{
      */	
 	public void incShift(){
 		SHIFT+=2;
+	}
+	
+	public void decHealth(){
+		this.health--;
+	}
+	
+	public int getHealth(){
+		return this.health;
 	}
 	
     // sets Direction of train to left

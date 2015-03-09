@@ -25,7 +25,7 @@ public class Fox extends Animal{
     }
      // Constructor for fox class, sets x and y position
     public Fox(int x, int y){
-    	super(x, y, 3);
+    	super(x, y, 5);
     }
 	
 		/*
