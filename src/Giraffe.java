@@ -13,7 +13,6 @@ import java.awt.image.BufferedImage;
 public class Giraffe extends Animal{
     private int Xpos, Ypos; 
     private int movement = 3;
-    private int health = 2;
     private URL rightURL = getClass().getResource("graphics/giraffe_right.png");
     private URL leftURL = getClass().getResource("graphics/giraffe_left.png");
     private URL upURL = getClass().getResource("graphics/giraffe_up.png");

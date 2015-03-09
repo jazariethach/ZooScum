@@ -338,20 +338,20 @@ public class GameEnvironment extends JFrame {
                     && (train.getY() > zooY - zHeight/2) && (train.getY() < zooY + zHeight/2)){
                     int n = train.getTA().size();
                     train.getTA().clear();
-                    train.incShift();
-                    net.incShift();
-                    broom.incShift();
                     total += n;
                     score += n;
                     // if all animals are collected
                     if (numAnimals == total){
                         //pause = true;
                         //nextLevel();
+                        train.incShift();
+						net.incShift();
+						broom.incShift();
 						level ++;
                         animalArray.clear();
                         trashArray.clear();
                         total = 0;
-                        numAnimals+=5;
+                        numAnimals+=2;
                         numTrash+=1;
                         for(int i = 0; i < numAnimals; i++) {
                             addNewBoardAnimal();
