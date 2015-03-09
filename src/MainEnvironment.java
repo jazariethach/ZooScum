@@ -20,6 +20,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  * Class MainEnvironment - creates a JFrame environment to display a menu to
@@ -112,18 +113,17 @@ class MainEnvironment extends JFrame implements ActionListener {
 		backPanel.setBackground(Color.GREEN);
         backPanel.setOpaque(true);
         backPanel.add(Back);
-        instructionsPane.setPreferredSize(new Dimension(400, 400));
-        instructionsPane.setBackground(Color.GREEN);
-        
-		// add text to pane
-        getInstructions();
-        setInstructions(instructionsPane);
-        
+		// instructionsPane.setPreferredSize(new Dimension(400, 400));
+        //instructionsPane.setBackground(Color.GREEN);
+        JTextArea textArea = new JTextArea("Welcome to Zoo Wrangler!" + "\n All the animals have just escaped from the zoo!! Your job is to go hop on the train and wrangle in all the wild animals while you still can." + "\n Use the arrow keys (left, right, down, up) to guide the train over the animals to retrieve them and they will then be added on to the back of your train like a tail. Once the animals are collected, drive through the zoo to return them." + "\n You can collect as many animals at a time as you like at a time before dropping them off back at the zoo. Returning many animals to the zoo at one time may earn you a bonus. However, as your tail of animals grows longer be careful not to run over your own tail of animals or into any walls, or game over." + "\n All animals must be returned to the zoo (not just in the train) in the time allotted or points will not be rewarded, and you cannot move on to the next level. Extra time left over will result in bonus points." + "\n Happy wrangling!!");
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+	
         // add pane & button to instructions panel
-		instructionsPane.setVisible(false);
+		textArea.setVisible(true);
         instructionsPanel.setLayout(new BoxLayout(instructionsPanel, BoxLayout.Y_AXIS));
         instructionsPanel.add(Box.createRigidArea(new Dimension(200,0)));
-        instructionsPanel.add(instructionsPane);
+        instructionsPanel.add(textArea);
         instructionsPanel.add(backPanel);
         instructionsPanel.setVisible(false);
         
@@ -149,23 +149,6 @@ class MainEnvironment extends JFrame implements ActionListener {
         menuFrame.setVisible(true);
         
     }// DisplayMenu
-    
-    // get instructions from URL
-    public void getInstructions() {
-        URL instructionsURL = getClass().getResource("graphics/instructions.txt");
-        instructionsFile = new File(instructionsURL.getFile());
-    }
-    
-    // set instructions to instructions text pane
-    public void setInstructions(JEditorPane instructionsPane) {
-        try {
-            instructionsPane.setPage(instructionsFile.toURI().toURL());
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
     
     
     /**
