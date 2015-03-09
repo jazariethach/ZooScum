@@ -178,7 +178,7 @@ public class GameEnvironment extends JFrame {
                 break;
         }
     }
-    
+
 
     /**
      Method addNewTailAnimal adds Animal to ArrayList
@@ -344,8 +344,8 @@ public class GameEnvironment extends JFrame {
                     score += n;
                     // if all animals are collected
                     if (numAnimals == total){
-                        //pause = true;
-                        //nextLevel();
+                        pause = true;
+                        nextLevel();
                         train.incShift();
 						net.incShift();
 						broom.incShift();
