@@ -87,7 +87,7 @@ public class GameEnvironment extends JFrame {
         pauseStartTime  = 0;
         elapsedTime		= 0;
         maxX 			= 1024;
-        maxY 			= 730;
+        maxY 			= 768;
         maxX2			= maxX-100;
         maxY2			= maxY-60;
         numAnimals 		= 3;
@@ -178,6 +178,7 @@ public class GameEnvironment extends JFrame {
                 break;
         }
     }
+
     /**
      Method addNewTailAnimal adds Animal to ArrayList
      @param animal - an Animal object
@@ -205,7 +206,6 @@ public class GameEnvironment extends JFrame {
         gameFrame.setVisible(true);
         gamePanel.requestFocus();
     }
-    
     
     /**
      * Innerclass GamePanel - for JPanel animation, creates background image
@@ -336,18 +336,16 @@ public class GameEnvironment extends JFrame {
                     broom.incShift();
                     total += n;
                     score += n;
-                    level ++;
-                    train.setDown();
                     // if all animals are collected
                     if (numAnimals == total){
                         pause = true;
                         nextLevel();
-
+						level ++;
                         animalArray.clear();
                         trashArray.clear();
                         total = 0;
                         numAnimals+=5;
-                        numTrash+=2;
+                        numTrash+=1;
                         for(int i = 0; i < numAnimals; i++) {
                             addNewBoardAnimal();
                         }
