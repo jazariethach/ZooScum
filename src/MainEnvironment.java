@@ -50,8 +50,8 @@ class MainEnvironment extends JFrame implements ActionListener {
     File		instructionsFile;	// file to hold instructions text
     Image 		menuImg;			// image icon for background image
     {
-    	maxX				= 1024;
-    	maxY				= 768;
+    	maxX				= 900;
+    	maxY				= 680;
     	menuFrame 			= new JFrame("Main Menu");
     	menuPane			= new JLayeredPane();
     	menuPanel			= new MenuPanel();
@@ -146,6 +146,7 @@ class MainEnvironment extends JFrame implements ActionListener {
         menuFrame.setMinimumSize(new Dimension(maxX, maxY));
         menuFrame.setSize(maxX, maxY);
         menuFrame.pack();
+        menuFrame.setResizable(false);
         menuFrame.setVisible(true);
         
     }// DisplayMenu

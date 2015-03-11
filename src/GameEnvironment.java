@@ -140,7 +140,9 @@ public class GameEnvironment extends JFrame {
     	else{
     		numTypes = 6;
     	}
+    	System.out.println("Number of types: " + numTypes);
         int randomize = (int)(Math.random() * numTypes+1); // determines animal type
+        System.out.println("Randomize: " + randomize);
 		int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX2/SHIFT);
 		int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY2/SHIFT);
         while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2))
@@ -205,6 +207,7 @@ public class GameEnvironment extends JFrame {
         gameFrame.setSize(maxX, maxY);
         gameFrame.pack();
         gameFrame.setVisible(true);
+        gameFrame.setResizable(false);
         gamePanel.requestFocus();
     }
     
