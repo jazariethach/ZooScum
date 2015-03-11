@@ -86,8 +86,8 @@ public class GameEnvironment extends JFrame {
         pausedTime		= 0;
         pauseStartTime  = 0;
         elapsedTime		= 0;
-        maxX 			= 1024;
-        maxY 			= 768;
+        maxX 			= 900;
+        maxY 			= 680;
         maxX2			= maxX-100;
         maxY2			= maxY-60;
         numAnimals 		= 3;
@@ -134,13 +134,13 @@ public class GameEnvironment extends JFrame {
      * 						 	  initial position on the board
      */
     private void addNewBoardAnimal() {
-    	if (level <= 6){
+    	if (level < 6){
     		numTypes = level;
     	}
     	else{
     		numTypes = 6;
     	}
-        int randomize = (int)Math.ceil(Math.random() * numTypes); // determines animal type
+        int randomize = (int)(Math.random() * numTypes+1); // determines animal type
 		int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX2/SHIFT);
 		int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY2/SHIFT);
         while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2))
@@ -253,20 +253,20 @@ public class GameEnvironment extends JFrame {
             g.setFont(new Font("Corsiva Hebrew", Font.PLAIN, 25));
             g.setColor(Color.BLACK);
             String displayScore = "Score: " + score;
-            g.drawString(displayScore, 870, 35);
+            g.drawString(displayScore, maxX - 150, 35);
             String displayBroom = "Brooms: " + nBroom;
-            g.drawString(displayBroom, 870, 60);
+            g.drawString(displayBroom, maxX - 150, 60);
             String displayHealth = "Health: " + train.getHealth();
-            g.drawString(displayHealth, 870, 85);
+            g.drawString(displayHealth, maxX - 150, 85);
             String displayNet = "Nets: " + nNet;
-            g.drawString(displayNet, 870, 110);
-            String displayLevel = "Levels: " + level;
-            g.drawString(displayLevel, 300, 110);
+            g.drawString(displayNet, maxX - 150, 110);
+            String displayLevel = "Level " + level;
+            g.drawString(displayLevel, maxX/2 - 20, 50);
             if (level < 3){
 				String displayIns = "Press SPACE to activate broom!";
-				g.drawString(displayIns, 300, 690);
+				g.drawString(displayIns, 300, maxY - 50);
 				String displayEsc = "Press C to activate net!";
-				g.drawString(displayEsc, 300, 710);
+				g.drawString(displayEsc, 300, maxY - 25);
 			}
         }
         
@@ -342,6 +342,8 @@ public class GameEnvironment extends JFrame {
                     train.getTA().clear();
                     total += n;
                     score += n;
+                    System.out.println(numAnimals);
+                    System.out.println(total);
                     // if all animals are collected
                     if (numAnimals == total){
                         pause = true;

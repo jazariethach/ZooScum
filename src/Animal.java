@@ -31,8 +31,8 @@ abstract public class Animal{
     URL defaultURL;
     private int movement = 15;
     private int animalNum;
-    int maxX = 1024;
-    int maxY = 768;
+    int maxX = 900;
+    int maxY = 680;
   		
     public Animal(){}
 
