@@ -241,8 +241,10 @@ public class GameEnvironment extends JFrame {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            showIcons(g);
+            showBackground(g);
             showScore(g);
+            showIcons(g);
+            
         } // end paintComponent
         
         /**
@@ -294,7 +296,9 @@ public class GameEnvironment extends JFrame {
             netIM = new ImageIcon(netURL).getImage();
             
         } // icons
-        
+        public void showBackground(Graphics g){
+        	g.drawImage(backgroundIM, -maxX/2, -maxY/2, this);
+        }
         /**
          * Method showIcons - paint image icons onto screen for animation
          * 		  @param g	- Graphics object to draw images on screen
@@ -302,14 +306,14 @@ public class GameEnvironment extends JFrame {
         public void showIcons(Graphics g){
             if (gameover == false){
                 
-                g.drawImage(backgroundIM, -maxX/2, -maxY/2, this);
-
+                
+				 for (int i=0; i<numTrash; i++){
+                    g.drawImage(pooIM, trashArray.get(i).getX(), trashArray.get(i).getY(), this);
+                }
                 for (int i=0; i<numAnimals; i++){
                     g.drawImage(animalArray.get(i).getIM(), animalArray.get(i).getX(), animalArray.get(i).getY(), this);
                 }
-                for (int i=0; i<numTrash; i++){
-                    g.drawImage(pooIM, trashArray.get(i).getX(), trashArray.get(i).getY(), this);
-                }
+               
                 g.drawImage(trainIM, train.getX(), train.getY(), this);
                 g.drawImage(zooIM, zooX, zooY,this);
                 //train.getTA().add(new Animal());
@@ -347,22 +351,6 @@ public class GameEnvironment extends JFrame {
                     if (numAnimals == total){
                         pause = true;
                         nextLevel();
-                        train.incShift();
-                        train.incHealth();
-						net.incShift();
-						broom.incShift();
-						level ++;
-                        animalArray.clear();
-                        trashArray.clear();
-                        total = 0;
-                        numAnimals+=2;
-                        numTrash+=1;
-                        for(int i = 0; i < numAnimals; i++) {
-                            addNewBoardAnimal();
-                        }
-                        for(int i = 0; i < numTrash; i++) {
-                            addNewTrash();
-                        }
                     }
                 }
                 
@@ -488,7 +476,7 @@ public class GameEnvironment extends JFrame {
         } // end gameLogic
         
         private void gameOver() {
-            String[] choices = {"Exit", "New Game", "Main Menu"};
+            Object[] choices = {"Exit", "New Game", "Main Menu"};
             ImageIcon pooIcon = new ImageIcon(getClass().getResource("graphics/poo.jpg"));
             
             int choice = JOptionPane.showOptionDialog(null,
@@ -514,7 +502,7 @@ public class GameEnvironment extends JFrame {
         }
 
         private void pauseGame() {
-            String[] choices = {"Exit", "Resume Game", "Main Menu"};
+            Object[] choices = {"Exit", "Resume Game", "Main Menu"};
             ImageIcon pauseIcon = new ImageIcon(getClass().getResource("graphics/paws.png"));
             
             
@@ -545,7 +533,7 @@ public class GameEnvironment extends JFrame {
         }
 
         private void nextLevel() {
-            String[] choices = {"Exit", "Next Level", "New Game", "Main Menu"};
+            Object[] choices = {"Exit", "Next Level", "New Game", "Main Menu"};
             ImageIcon nextLevelIcon = new ImageIcon(getClass().getResource("graphics/cagedElephant.png"));
 
             int choice = JOptionPane.showOptionDialog(null,
@@ -564,6 +552,22 @@ public class GameEnvironment extends JFrame {
                 case 1 :
                     pausedTime += (System.nanoTime() / 1000000000 - pauseStartTime);
                     pause = false;
+					train.incShift();
+					train.incHealth();
+					net.incShift();
+					broom.incShift();
+					level ++;
+					animalArray.clear();
+					trashArray.clear();
+					total = 0;
+					numAnimals+=2;
+					numTrash+=1;
+					for(int i = 0; i < numAnimals; i++) {
+						addNewBoardAnimal();
+					}
+					for(int i = 0; i < numTrash; i++) {
+						addNewTrash();
+					}
                     break;
                 case 2 :
                     gameover = true;
