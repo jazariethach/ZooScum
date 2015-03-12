@@ -638,8 +638,6 @@ public class GameEnvironment extends JFrame {
                 
                     if (key == KeyEvent.VK_ESCAPE && pause == false){
                         pause = true;
-                        //pausePanel.setVisible(true);
-                        //splashPane.moveToFront(pausePanel);
                         pauseGame();
                     }
                 }

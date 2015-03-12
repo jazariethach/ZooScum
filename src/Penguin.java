@@ -15,8 +15,8 @@ public class Penguin extends Animal{
     private int health = 2;
     private URL rightURL = getClass().getResource("graphics/penguin_right.png");
     private URL leftURL = getClass().getResource("graphics/penguin_left.png");
-    private URL upURL = getClass().getResource("graphics/penguin_right.png");
-    private URL downURL = getClass().getResource("graphics/penguin_left.png");
+    private URL upURL = getClass().getResource("graphics/penguin_up.png");
+    private URL downURL = getClass().getResource("graphics/penguin_down.png");
     private URL redURL = getClass().getResource("graphics/blood.png");//blood
     private Image pengIM = new ImageIcon(rightURL).getImage();
     

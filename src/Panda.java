@@ -14,8 +14,8 @@ public class Panda extends Animal{
     private int movement = 5;
     private URL rightURL = getClass().getResource("graphics/panda_right.png");
     private URL leftURL = getClass().getResource("graphics/panda_left.png");
-    private URL upURL = getClass().getResource("graphics/panda_right.png");
-    private URL downURL = getClass().getResource("graphics/panda_left.png");
+    private URL upURL = getClass().getResource("graphics/panda_up.png");
+    private URL downURL = getClass().getResource("graphics/panda_down.png");
     private URL redURL = getClass().getResource("graphics/blood.png");//blood
     private Image pandaIM = new ImageIcon(rightURL).getImage();
     Image stateIM = pandaIM;
