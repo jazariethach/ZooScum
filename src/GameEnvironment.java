@@ -348,6 +348,7 @@ public class GameEnvironment extends JFrame {
                         pause = true;
                         nextLevel();
                         train.incShift();
+                        train.incHealth();
 						net.incShift();
 						broom.incShift();
 						level ++;

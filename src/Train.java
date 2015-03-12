@@ -18,7 +18,7 @@ public class Train{
     private boolean down = false;
 	private int health = 5;
     int Xpos, Ypos;
-    private int SHIFT = 15;	
+    private int SHIFT = 20;	
    	private ArrayList<Animal> tailArray = new ArrayList<Animal>(); // tail of Train
     
   /**
@@ -44,6 +44,10 @@ public class Train{
 	
 	public void decHealth(){
 		this.health--;
+	}
+	
+	public void incHealth(){
+		this.health++;
 	}
 	
 	public int getHealth(){
