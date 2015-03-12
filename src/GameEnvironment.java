@@ -140,9 +140,9 @@ public class GameEnvironment extends JFrame {
     	else{
     		numTypes = 6;
     	}
-    	System.out.println("Number of types: " + numTypes);
+    	
         int randomize = (int)(Math.random() * numTypes+1); // determines animal type
-        System.out.println("Randomize: " + randomize);
+
 		int Xpos = SHIFT*(int)Math.ceil(Math.random() * maxX2/SHIFT);
 		int Ypos = SHIFT*(int)Math.ceil(Math.random() * maxY2/SHIFT);
         while((zooX - zWidth/2) < Xpos && (Xpos < (zooX + zWidth/2))
@@ -153,32 +153,30 @@ public class GameEnvironment extends JFrame {
             if(Ypos > maxY2 -80)
                 Ypos = (SHIFT*(int)Math.ceil(Math.random() * maxY2/SHIFT)) % (maxY -80);
         }
-        switch (randomize){
-            case 1:
-                Penguin p = new Penguin(Xpos, Ypos);
-                animalArray.add(p);
-                break;
-            case 2:
-                Giraffe g = new Giraffe(Xpos, Ypos);
-                animalArray.add(g);
-                break;
-            case 3:
-                Koala k = new Koala(Xpos, Ypos);
-                animalArray.add(k);
-                break;
-            case 4:
-                Panda pa = new Panda(Xpos, Ypos);
-                animalArray.add(pa);
-                break;
-            case 5:
-            	Fox f = new Fox(Xpos, Ypos);
-            	animalArray.add(f);
-            case 6:
-            	Tiger t = new Tiger(Xpos, Ypos);
-            	animalArray.add(t);
-            default:
-                break;
+        if (randomize == 1){
+            Penguin p = new Penguin(Xpos, Ypos);
+            animalArray.add(p);
         }
+		if (randomize == 2){
+			Giraffe g = new Giraffe(Xpos, Ypos);
+			animalArray.add(g);
+		}
+		if (randomize == 3){
+			Koala k = new Koala(Xpos, Ypos);
+			animalArray.add(k);
+		}
+		if (randomize == 4){
+			Panda pa = new Panda(Xpos, Ypos);
+			animalArray.add(pa);
+		}
+		if (randomize == 5){
+			Fox f = new Fox(Xpos, Ypos);
+			animalArray.add(f);
+		}
+		if (randomize == 6){
+			Tiger t = new Tiger(Xpos, Ypos);
+			animalArray.add(t);
+		}
     }
 
 
@@ -345,8 +343,6 @@ public class GameEnvironment extends JFrame {
                     train.getTA().clear();
                     total += n;
                     score += n;
-                    System.out.println(numAnimals);
-                    System.out.println(total);
                     // if all animals are collected
                     if (numAnimals == total){
                         pause = true;
