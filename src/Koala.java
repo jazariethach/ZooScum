@@ -11,7 +11,7 @@ import java.net.*;
 import java.awt.image.BufferedImage;
 
 public class Koala extends Animal{
-    private int movement = 4;
+    private int movement = 10;
     private URL rightURL = getClass().getResource("graphics/koala_right.png");
     private URL leftURL = getClass().getResource("graphics/koala_left.png");
     private URL upURL = getClass().getResource("graphics/koala_up.png");
@@ -53,7 +53,7 @@ public class Koala extends Animal{
 
 	@Override
   	public void step(){
-  		int random = (int)Math.ceil(Math.random()*3);
+  		int random = (int)Math.ceil(Math.random()*7);
 		if ((this.Ypos + movement) < (maxY-80) && random == 1){ // move up
 					this.Ypos += movement;
 		}

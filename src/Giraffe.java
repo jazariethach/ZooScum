@@ -50,11 +50,20 @@ public class Giraffe extends Animal{
     	return this.raffeIM;
     }
     
-  	@Override
+    @Override
   	public void step(){
-  		int random = (int)Math.ceil(Math.random()*2);
+  		int random = (int)Math.ceil(Math.random()*4);
 		if ((this.Ypos + movement) < (maxY-80) && random == 1){ // move up
 					this.Ypos += movement;
+		}
+		else if ((this.Ypos - movement) > 0 && random == 2){ // move down
+					this.Ypos -= movement;
+		}
+		else if ((this.Xpos + movement) < (maxX-35) && random == 3){ // move right
+					this.Xpos += movement;
+		}
+		else if ((this.Xpos - movement) > 0 && random == 4){ // move left
+					this.Xpos -= movement;
 		}
   	}
 

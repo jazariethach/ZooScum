@@ -163,7 +163,7 @@ class MainEnvironment extends JFrame implements ActionListener {
 	    }// paintComponent
         
         public void getBackgroundImg() {
-            URL menuBackgroundURL = getClass().getResource("graphics/madagascar.jpg");
+            URL menuBackgroundURL = getClass().getResource("graphics/zooWrangler.jpg");
             
             try {
                 menuImg = new ImageIcon(menuBackgroundURL).getImage();
