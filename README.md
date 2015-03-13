@@ -7,7 +7,7 @@ __Navigation__:
    - [Introduction](https://github.com/jazariethach/ZooScum#introduction)
    - [How To Run](https://github.com/jazariethach/ZooScum#how-to-run)
    - [Main Menu](https://github.com/jazariethach/ZooScum#main-menu)
-   - [Starting the Game](https://github.com/jazariethach/ZooScum#how-to-play)
+   - [How to Play](https://github.com/jazariethach/ZooScum#how-to-play)
    - [Game Play](https://github.com/jazariethach/ZooScum#game-play)
    - [End of Game](https://github.com/jazariethach/ZooScum#end-of-game)
 
